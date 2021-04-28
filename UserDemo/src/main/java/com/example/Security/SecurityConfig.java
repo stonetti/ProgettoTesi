@@ -1,21 +1,23 @@
 package com.example.Security;
 
-import org.springframework.beans.factory.annotation.Value;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
+
+	
 @Configuration
 public class SecurityConfig  extends WebSecurityConfigurerAdapter {
 	
-	@Value("${public.URL}")
-	private String loginUrl;
+	@Autowired
+	SecurityProperties prop;
 	
 	@Override
 	public void configure(WebSecurity webSecurity) throws Exception {
-        webSecurity.ignoring().antMatchers(loginUrl);
+        webSecurity.ignoring().antMatchers(prop.loginUrl);
     }
 	
 	  @Override
