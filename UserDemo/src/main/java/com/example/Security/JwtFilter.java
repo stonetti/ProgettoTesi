@@ -17,7 +17,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.filter.GenericFilterBean;
 
 import com.example.UserDemo.CustomError;
-import com.example.UserDemo.MapperDemo;
+import com.example.UserDemo.DbQueries;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import io.jsonwebtoken.Claims;
@@ -30,7 +30,7 @@ import io.jsonwebtoken.security.Keys;
 public class JwtFilter extends GenericFilterBean {
 
 	@Autowired
-	MapperDemo mapperDemo;
+	DbQueries mapperDemo;
 	private String secretString = "chiave-segreta-per-demo-user-0109";
 	private SecretKey key = Keys.hmacShaKeyFor(secretString.getBytes(StandardCharsets.UTF_8));
 	ObjectMapper mapper = new ObjectMapper();	  

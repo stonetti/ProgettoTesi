@@ -11,17 +11,17 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.Security.TokenFactory;
-import com.example.UserDemo.MapperDemo;
+import com.example.UserDemo.DbQueries;
 import com.example.UserDemo.UserLogin;
 
 
 @RestController
 
 
-public class UserController {
+public class LoginController {
 	
 	@Autowired
-	MapperDemo mapperdemo;
+	DbQueries mapperdemo;
 	private TokenFactory tokenFactory = new TokenFactory();
 
 

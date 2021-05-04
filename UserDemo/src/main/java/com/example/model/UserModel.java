@@ -1,5 +1,5 @@
-package com.example.UserDemo;
-
+package com.example.model;
+import com.example.UserDemo.Address;
 import java.util.Date;
 import java.util.List;
 
@@ -7,16 +7,13 @@ import javax.validation.Valid;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+public class UserModel {
 
-
-public class User {
-	/* Anagrafica utente */
 	private int id;
 	
 	@NotNull
 	@Size (min = 10, max = 10)
 	private String name;
-	
 	@Size(min = 10, max = 10)
 	private String lastname;
 	private int age;
@@ -40,7 +37,7 @@ public class User {
 	@NotEmpty
 	List<@Valid Address> addressList;
 
-	public User() {
+	public UserModel() {
 
 	}
 
@@ -175,4 +172,3 @@ public class User {
 
 
 }
-
