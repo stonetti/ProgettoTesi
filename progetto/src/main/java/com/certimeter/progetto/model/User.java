@@ -11,6 +11,7 @@ public class User {
 	List<Integer> businessUnits;
 	List<String> macro;
 	List<String> activities;
+	List<Role> roles;
 	String email;
 	AccountDetails accDetails;
 }
