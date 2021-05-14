@@ -1,11 +1,14 @@
-package com.certimeter.progetto.model;
+package com.certimeter.progetto.controller.pojo;
 
 import java.util.List;
+
+import com.certimeter.progetto.model.Activity;
+import com.certimeter.progetto.model.User;
 
 import lombok.Data;
 
 @Data
-public class Macro {
+public class MacroPojo {
 
 	String id;
 	String name;

@@ -13,6 +13,5 @@ public class Activity {
 	String description;
 	List<String> users;
 	Date expiringDate;
-	Macro macro;
 	List<SubActivity> sub_activities;
 }
