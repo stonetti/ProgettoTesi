@@ -1,3 +1,4 @@
+
 package com.certimeter.progetto.controller.pojo;
 
 import java.util.List;

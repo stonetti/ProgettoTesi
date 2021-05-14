@@ -1,3 +1,4 @@
+
 package com.certimeter.progetto.repository.macro;
 
 import org.springframework.data.mongodb.repository.MongoRepository;
