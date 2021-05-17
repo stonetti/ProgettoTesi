@@ -8,11 +8,11 @@ import lombok.Data;
 @Data
 public class Macro {
 
-	String id;
-	String name;
-	String descrption;
-	int yearOfCreation;
-	List<Activity> activities;
-	List<User> pm;
-	List<String> users;
+	private String id;
+	private String name;
+	private String descrption;
+	private int yearOfCreation;
+	private List<Activity> activities;
+	private List<User> pm;
+	private List<MacroUsers> users;
 }

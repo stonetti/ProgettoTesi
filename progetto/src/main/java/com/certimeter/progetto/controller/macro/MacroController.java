@@ -23,15 +23,9 @@ public class MacroController implements MacroControllerInterface {
 	@Autowired
 	MacroRepository repo;
 
-	@GetMapping("/listOpen")
-	@Override
-	public List<Macro> getOpen() {
-		return repo.getOpen();
-	}
-
 	@PostMapping("/list")
 	@Override
-	public List<Macro> getAll() {
+	public List<Macro> getList() {
 		return repo.getAll();
 	}
 

@@ -1,5 +1,15 @@
 package com.certimeter.progetto.controller.pojo;
 
-public class UserPojo {
+import java.util.List;
 
+import com.certimeter.progetto.model.AccountDetails;
+
+public class UserPojo {
+	private String id;
+	private String name;
+	private String lastname;
+	private List<Integer> businessUnits;
+	private List<String> macro;
+	private String email;
+	private AccountDetails accDetails;
 }

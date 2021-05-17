@@ -7,12 +7,11 @@ import lombok.Data;
 
 @Data
 public class User {
-	String id;
-	String name;
-	List<Integer> businessUnits;
-	List<String> macro;
-	List<String> activities;
-	List<Role> roles;
-	String email;
-	AccountDetails accDetails;
+	private String id;
+	private String name;
+	private String lastname;
+	private List<Integer> businessUnits;
+	private List<String> macro;
+	private String email;
+	private AccountDetails accDetails;
 }

@@ -3,13 +3,23 @@ package com.certimeter.progetto.controller.user;
 
 import java.util.List;
 
-import com.certimeter.progetto.model.User;
-import com.certimeter.progetto.repository.dao.UserDao;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
+import com.certimeter.progetto.model.User;
+
+@RestController
+@RequestMapping("/users")
 public class UserController implements UserControllerInterface {
 
 	@Override
-	public UserDao getUser(String user_Id) {
+	public User createUser(User user) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public User updateUser(User user) {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -21,37 +31,13 @@ public class UserController implements UserControllerInterface {
 	}
 
 	@Override
-	public UserDao createUser(User user) {
+	public User getUser(String userId) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public UserDao updateUser(User user) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public List<UserDao> getAllUser() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public List<UserDao> getAllUserByActivity(String activityId) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public List<UserDao> getAllUserBySubActivity(String subActivityId) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public List<UserDao> getAllUserByMacro(String macroId) {
+	public List<User> getList() {
 		// TODO Auto-generated method stub
 		return null;
 	}

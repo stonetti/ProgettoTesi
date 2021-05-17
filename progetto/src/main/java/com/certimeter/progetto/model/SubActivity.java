@@ -13,6 +13,5 @@ public class SubActivity {
 	String description;
 	List<String> users;
 	Date expiringDate;
-	Activity parentActivity;
 	List<SubActivity> sub_activities;
 }

@@ -6,9 +6,8 @@ import java.util.List;
 import com.certimeter.progetto.model.Macro;
 
 public interface MacroControllerInterface {
-	public List<Macro> getOpen();
 
-	public List<Macro> getAll();
+	public List<Macro> getList();
 
 	public Macro getMacro(String macroId);
 
