@@ -18,6 +18,4 @@ public interface MacroControllerInterface {
 
 	public void deleteMacro(String macroId);
 
-//	Macro getMacroByActivity(String activityId);
-
 }

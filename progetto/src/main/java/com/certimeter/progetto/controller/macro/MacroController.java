@@ -40,12 +40,6 @@ public class MacroController implements MacroControllerInterface {
 	public Macro getMacro(@PathVariable String macroId) {
 		return repo.getMacro(macroId);
 	}
-//
-//	@GetMapping("/{activityId}")
-//	@Override
-//	public Macro getMacroByActivity(@PathVariable String activityId) {
-//		return repo.getMacroByActivityId(activityId);
-//	}
 
 	@PostMapping("/")
 	@Override
