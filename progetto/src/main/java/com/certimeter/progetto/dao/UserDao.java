@@ -1,14 +1,16 @@
-
-package com.certimeter.progetto.model;
+package com.certimeter.progetto.dao;
 
 import java.util.List;
 
-import lombok.Builder;
+import org.springframework.data.mongodb.core.mapping.Document;
+
+import com.certimeter.progetto.model.AccountDetails;
+
 import lombok.Data;
 
 @Data
-@Builder
-public class User {
+@Document(collection = "users")
+public class UserDao {
 	private String id;
 	private String name;
 	private String lastname;
@@ -16,4 +18,5 @@ public class User {
 	private List<String> macro;
 	private String email;
 	private AccountDetails accDetails;
+
 }

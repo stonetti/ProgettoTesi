@@ -1,4 +1,4 @@
-package com.certimeter.progetto.model;
+package com.certimeter.progetto.pojo;
 
 import java.util.Date;
 import java.util.List;
@@ -6,7 +6,7 @@ import java.util.List;
 import lombok.Data;
 
 @Data
-public class Report {
+public class ReportPojo {
 	private String id;
 	private List<String> idPath;
 	private int amount;

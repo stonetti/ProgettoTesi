@@ -3,11 +3,12 @@ package com.certimeter.progetto.controller.macro;
 
 import java.util.List;
 
+import com.certimeter.progetto.filters.MacroFilter;
 import com.certimeter.progetto.model.Macro;
 
 public interface MacroControllerInterface {
 
-	public List<Macro> getList();
+	public List<Macro> getList(MacroFilter param);
 
 	public Macro getMacro(String macroId);
 

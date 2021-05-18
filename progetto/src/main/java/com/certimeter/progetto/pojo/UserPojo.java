@@ -1,14 +1,13 @@
-
-package com.certimeter.progetto.model;
+package com.certimeter.progetto.pojo;
 
 import java.util.List;
 
-import lombok.Builder;
+import com.certimeter.progetto.model.AccountDetails;
+
 import lombok.Data;
 
 @Data
-@Builder
-public class User {
+public class UserPojo {
 	private String id;
 	private String name;
 	private String lastname;

@@ -6,7 +6,7 @@ import com.certimeter.progetto.model.Report;
 
 public interface ReportControllerInterface {
 
-	public List<Report> getList(String path);
+	public List<Report> getList();
 
 	public Report getReport(String reportId);
 
