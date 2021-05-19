@@ -30,12 +30,13 @@ public class ReportController implements ReportControllerInterface {
 	@PostConstruct
 	static void init() {
 		Function<ReportPojo, Report> toModel = (pojo) -> {
-			Report report = new Report();
+			Report report = Report.builder().build();
 			report.setId(pojo.getId());
 			report.setAmount(pojo.getAmount());
 			report.setIdPath(pojo.getIdPath());
 			report.setNote(pojo.getNote());
 			report.setUser(pojo.getUser());
+			report.setDate(pojo.getDate());
 			return report;
 		};
 		Converter.put(ReportPojo.class, Report.class, toModel);
@@ -46,6 +47,7 @@ public class ReportController implements ReportControllerInterface {
 			pojo.setAmount(report.getAmount());
 			pojo.setIdPath(report.getIdPath());
 			pojo.setNote(report.getNote());
+			pojo.setDate(report.getDate());
 			pojo.setUser(report.getUser());
 			return pojo;
 		};

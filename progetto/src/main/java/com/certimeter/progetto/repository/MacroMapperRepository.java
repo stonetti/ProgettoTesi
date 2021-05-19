@@ -67,6 +67,49 @@ public class MacroMapperRepository {
 		};
 
 		Converter.put(MacroDao.class, MacroPojo.class, toPojo);
+
+		Function<UserInfoPojo, UserInfoDao> pojoToDao = (pojo) -> {
+			UserInfoDao userInfoDao = new UserInfoDao();
+			userInfoDao.setId(pojo.getId());
+			userInfoDao.setLastname(pojo.getLastname());
+			userInfoDao.setName(pojo.getName());
+			return userInfoDao;
+		};
+		Converter.put(UserInfoPojo.class, UserInfoDao.class, pojoToDao);
+
+		Function<UserInfoDao, UserInfoPojo> daoToPojo = (userInfoDao) -> {
+			UserInfoPojo pojo = new UserInfoPojo();
+			pojo.setId(userInfoDao.getId());
+			pojo.setLastname(userInfoDao.getLastname());
+			pojo.setName(userInfoDao.getName());
+			return pojo;
+		};
+
+		Converter.put(UserInfoDao.class, UserInfoPojo.class, daoToPojo);
+
+		Function<ActivityPojo, ActivityDao> pojoToActDao = (pojo) -> {
+			ActivityDao actDao = new ActivityDao();
+			actDao.setDescription(pojo.getDescription());
+			actDao.setExpiringDate(pojo.getExpiringDate());
+			actDao.setId(pojo.getId());
+			actDao.setName(pojo.getName());
+			actDao.setSub_activities(pojo.getSub_activities());
+			actDao.setUsers(pojo.getUsers());
+			return actDao;
+		};
+		Converter.put(ActivityPojo.class, ActivityDao.class, pojoToActDao);
+
+		Function<ActivityDao, ActivityPojo> actDaoToPojo = (actDao) -> {
+			ActivityPojo pojo = new ActivityPojo();
+			pojo.setDescription(actDao.getDescription());
+			pojo.setExpiringDate(actDao.getExpiringDate());
+			pojo.setId(actDao.getId());
+			pojo.setName(actDao.getName());
+			pojo.setSub_activities(actDao.getSub_activities());
+			pojo.setUsers(actDao.getUsers());
+			return pojo;
+		};
+		Converter.put(ActivityDao.class, ActivityPojo.class, actDaoToPojo);
 	}
 
 	public MacroPojo getMacro(String macroId) {

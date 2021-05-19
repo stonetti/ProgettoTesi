@@ -27,6 +27,7 @@ public class ReportMapperRepository {
 			report.setIdPath(pojo.getIdPath());
 			report.setNote(pojo.getNote());
 			report.setUser(pojo.getUser());
+			report.setDate(pojo.getDate());
 			return report;
 		};
 		Converter.put(ReportPojo.class, ReportDao.class, toDao);
@@ -37,6 +38,7 @@ public class ReportMapperRepository {
 			pojo.setAmount(report.getAmount());
 			pojo.setIdPath(report.getIdPath());
 			pojo.setNote(report.getNote());
+			pojo.setDate(report.getDate());
 			pojo.setUser(report.getUser());
 			return pojo;
 		};

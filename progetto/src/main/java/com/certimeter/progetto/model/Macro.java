@@ -1,7 +1,7 @@
 
 package com.certimeter.progetto.model;
 
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.List;
 
 import lombok.Builder;
@@ -14,8 +14,8 @@ public class Macro {
 	private String id;
 	private String name;
 	private String description;
-	private Date dateOfCreation;
-	private Date expiringDate;
+	private LocalDate dateOfCreation;
+	private LocalDate expiringDate;
 	private List<Activity> activities;
 	private List<User> pm;
 	private List<UserInfo> assignedUsers;

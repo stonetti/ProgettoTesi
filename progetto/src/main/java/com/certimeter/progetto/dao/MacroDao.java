@@ -1,6 +1,6 @@
 package com.certimeter.progetto.dao;
 
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -13,8 +13,8 @@ public class MacroDao {
 	private String id;
 	private String name;
 	private String description;
-	private Date dateOfCreation;
-	private Date expiringDate;
+	private LocalDate dateOfCreation;
+	private LocalDate expiringDate;
 	private List<ActivityDao> activities;
 	private List<UserDao> pm;
 	private List<UserInfoDao> assignedUsers;

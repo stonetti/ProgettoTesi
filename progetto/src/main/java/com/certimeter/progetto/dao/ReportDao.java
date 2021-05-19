@@ -1,6 +1,6 @@
 package com.certimeter.progetto.dao;
 
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -13,7 +13,7 @@ public class ReportDao {
 	private String id;
 	private List<String> idPath;
 	private int amount;
-	private Date date;
+	private LocalDate date;
 	private String note;
 	private String user;
 }

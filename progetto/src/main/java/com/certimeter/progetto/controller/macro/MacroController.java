@@ -69,6 +69,49 @@ public class MacroController implements MacroControllerInterface {
 		};
 
 		Converter.put(Macro.class, MacroPojo.class, toPojo);
+
+		Function<UserInfoPojo, UserInfo> pojoToModel = (pojo) -> {
+			UserInfo userInfo = new UserInfo();
+			userInfo.setId(pojo.getId());
+			userInfo.setLastname(pojo.getLastname());
+			userInfo.setName(pojo.getName());
+			return userInfo;
+		};
+		Converter.put(UserInfoPojo.class, UserInfo.class, pojoToModel);
+
+		Function<UserInfo, UserInfoPojo> modelToPojo = (userInfo) -> {
+			UserInfoPojo pojo = new UserInfoPojo();
+			pojo.setId(userInfo.getId());
+			pojo.setLastname(userInfo.getLastname());
+			pojo.setName(userInfo.getName());
+			return pojo;
+		};
+
+		Converter.put(UserInfo.class, UserInfoPojo.class, modelToPojo);
+
+		Function<Activity, ActivityPojo> actToPojo = (act) -> {
+			ActivityPojo actPojo = new ActivityPojo();
+			actPojo.setDescription(act.getDescription());
+			actPojo.setExpiringDate(act.getExpiringDate());
+			actPojo.setId(act.getId());
+			actPojo.setName(act.getName());
+			actPojo.setSub_activities(act.getSub_activities());
+			actPojo.setUsers(act.getUsers());
+			return actPojo;
+		};
+		Converter.put(Activity.class, ActivityPojo.class, actToPojo);
+
+		Function<ActivityPojo, Activity> pojoToAct = (pojo) -> {
+			Activity act = Activity.builder().build();
+			act.setDescription(pojo.getDescription());
+			act.setExpiringDate(pojo.getExpiringDate());
+			act.setId(pojo.getId());
+			act.setName(pojo.getName());
+			act.setSub_activities(pojo.getSub_activities());
+			act.setUsers(pojo.getUsers());
+			return act;
+		};
+		Converter.put(ActivityPojo.class, Activity.class, pojoToAct);
 	}
 
 	@PostMapping("/list")
