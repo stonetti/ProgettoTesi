@@ -1,6 +1,6 @@
 package com.certimeter.progetto.dao;
 
-import com.certimeter.progetto.enums.Roles;
+import com.certimeter.progetto.enums.Role;
 import com.certimeter.progetto.model.AccountDetails;
 import lombok.Data;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -17,6 +17,6 @@ public class UserDao {
     private List<String> macro;
     private String email;
     private AccountDetails accDetails;
-    private List<Roles> roles;
-    private Roles defaultRole;
+    private List<Role> roles;
+    private Role defaultRole;
 }

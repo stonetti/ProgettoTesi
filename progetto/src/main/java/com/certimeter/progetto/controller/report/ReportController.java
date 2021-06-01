@@ -1,9 +1,10 @@
 package com.certimeter.progetto.controller.report;
 
-import com.certimeter.progetto.filters.MacroFilter;
+import com.certimeter.progetto.errorHandling.AuthorizationFailureException;
+import com.certimeter.progetto.filters.ReportFilter;
 import com.certimeter.progetto.model.Report;
 import com.certimeter.progetto.pojo.ReportPojo;
-import com.certimeter.progetto.repository.ReportMapperRepository;
+import com.certimeter.progetto.service.ReportService;
 import com.certimeter.progetto.utilities.Converter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -17,7 +18,7 @@ import java.util.function.Function;
 public class ReportController implements ReportControllerInterface {
 
     @Autowired
-    ReportMapperRepository repo;
+    ReportService reportService;
 
     @PostConstruct
     static void init() {
@@ -47,34 +48,34 @@ public class ReportController implements ReportControllerInterface {
         Converter.put(Report.class, ReportPojo.class, toPojo);
     }
 
+    @Override
     @PostMapping("/list")
-    public List<Report> getList(@RequestBody MacroFilter param) {
-        return Converter.convert(repo.getList(param.toParam()), Report.class);
+    public List<Report> getList(@RequestBody ReportFilter param, @RequestHeader(name = "Authorization") String token) throws AuthorizationFailureException {
+        return reportService.getList(param, token);
     }
 
     @Override
     @GetMapping("/{reportId}")
-    public Report getReport(@PathVariable String reportId) {
-        return Converter.convert(repo.getReport(reportId), Report.class);
+    public Report getReport(@PathVariable String reportId, @RequestHeader(name = "Authorization") String token) throws AuthorizationFailureException {
+        return reportService.getReport(reportId, token);
     }
 
     @Override
     @PostMapping("/")
-    public Report createReport(@RequestBody Report report) {
-        ReportPojo reportpojo = Converter.convert(report, ReportPojo.class);
-        return Converter.convert(repo.createReport(reportpojo), Report.class);
+    public Report createReport(@RequestBody Report report, @RequestHeader(name = "Authorization") String token) throws AuthorizationFailureException {
+        return reportService.createReport(report, token);
     }
 
     @Override
     @PutMapping("/")
-    public Report updateReport(@RequestBody Report report) {
-        ReportPojo reportpojo = Converter.convert(report, ReportPojo.class);
-        return Converter.convert(repo.updateReport(reportpojo), Report.class);
+    public Report updateReport(@RequestBody Report report, @RequestHeader(name = "Authorization") String token) throws AuthorizationFailureException {
+        return reportService.updateReport(report, token);
+
     }
 
     @Override
     @DeleteMapping("/{reportId}")
-    public void deleteReport(@PathVariable String reportId) {
-        repo.deleteReport(reportId);
+    public void deleteReport(@PathVariable String reportId, @RequestHeader(name = "Authorization") String token) throws AuthorizationFailureException {
+        reportService.deleteReport(reportId, token);
     }
 }

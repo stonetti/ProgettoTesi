@@ -2,6 +2,7 @@ package com.certimeter.progetto.repository;
 
 import com.certimeter.progetto.dao.ReportDao;
 import com.certimeter.progetto.filters.common.QueryParameter;
+import com.certimeter.progetto.model.Report;
 import com.certimeter.progetto.pojo.ReportPojo;
 import com.certimeter.progetto.queries.ReportQueries;
 import com.certimeter.progetto.utilities.Converter;
@@ -75,5 +76,17 @@ public class ReportMapperRepository {
         for (QueryParameter param : params)
             query.addCriteria(Converter.toCriteria(param.getKey(), param.getOp(), param.getValue()));
         return Converter.convert(mongoTemplate.find(query, ReportDao.class), ReportPojo.class);
+    }
+
+    public List<ReportPojo> getListByPm(String pm, List<QueryParameter> toParam) {
+        return null; //TODO: Converter.convert();
+    }
+
+    public List<ReportPojo> getListByUser(String user, List<QueryParameter> toParam) {
+        return null; //TODO: Converter.convert();
+    }
+
+    public Report getReportByPm(String reportId) {
+        return null;//TODO: Converter.convert();
     }
 }

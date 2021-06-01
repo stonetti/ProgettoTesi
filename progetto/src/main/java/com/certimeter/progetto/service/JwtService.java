@@ -1,7 +1,7 @@
 package com.certimeter.progetto.service;
 
 import com.certimeter.progetto.configuration.SecurityProperties;
-import com.certimeter.progetto.enums.Roles;
+import com.certimeter.progetto.enums.Role;
 import com.certimeter.progetto.model.AccountDetails;
 import com.certimeter.progetto.model.User;
 import com.certimeter.progetto.repository.UserMapperRepository;
@@ -49,7 +49,7 @@ public class JwtService {
         return Converter.convert(repo.getUser(userDecodedId), User.class);
     }
 
-    public Map<String, Object> setTokenMap(User user, Roles role) {
+    public Map<String, Object> setTokenMap(User user, Role role) {
         String accessToken = tokenFactory.getAccessToken(user, role);
         String refreshToken = tokenFactory.getRefreshToken(user, role);
         Map<String, Object> tokenMap = new HashMap<>();

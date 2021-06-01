@@ -18,8 +18,7 @@ public class CustomError {
      * human-readable summary of the problem type -The status is for the HTTP status code returned by the server - The instance is a URI that identifies the specific occurrence of the problem
      *
      */
-
-    //TODO: mettere @data!
+    
     private String title;
     private List<String> details;
     private URI type;

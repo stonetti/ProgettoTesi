@@ -1,6 +1,6 @@
 package com.certimeter.progetto.model;
 
-import com.certimeter.progetto.enums.Roles;
+import com.certimeter.progetto.enums.Role;
 import lombok.Builder;
 import lombok.Data;
 
@@ -16,6 +16,6 @@ public class User {
     private List<String> macro;
     private String email;
     private AccountDetails accDetails;
-    private List<Roles> roles;
-    private Roles defaultRole;
+    private List<Role> roles;
+    private Role defaultRole;
 }

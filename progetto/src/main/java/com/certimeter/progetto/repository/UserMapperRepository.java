@@ -20,6 +20,9 @@ public class UserMapperRepository {
     @Autowired
     MongoTemplate mongotTemplate;
 
+    @Autowired
+    UserQueries userQueries;
+
     @PostConstruct
     static void init() {
         Function<UserPojo, UserDao> toDao = (pojo) -> {
@@ -55,15 +58,13 @@ public class UserMapperRepository {
         Converter.put(UserDao.class, UserPojo.class, toPojo);
     }
 
-    @Autowired
-    UserQueries db;
 
     public UserPojo createUser(UserPojo user) {
         String pwd = user.getAccDetails().getPassword();
         String hashedPwd = BCrypt.hashpw(pwd, BCrypt.gensalt());
         user.getAccDetails().setPassword(hashedPwd);
         UserDao userdao = Converter.convert(user, UserDao.class);
-        return Converter.convert(db.save(userdao), UserPojo.class);
+        return Converter.convert(userQueries.save(userdao), UserPojo.class);
     }
 
     public UserPojo updateUser(UserPojo user) {
@@ -71,19 +72,27 @@ public class UserMapperRepository {
         String hashedPwd = BCrypt.hashpw(pwd, BCrypt.gensalt());
         user.getAccDetails().setPassword(hashedPwd);
         UserDao userdao = Converter.convert(user, UserDao.class);
-        return Converter.convert((db.save(userdao)), UserPojo.class);
+        return Converter.convert((userQueries.save(userdao)), UserPojo.class);
     }
 
     public void deleteUser(String userId) {
-        db.deleteById(userId);
+        userQueries.deleteById(userId);
     }
 
     public UserPojo getUser(String userId) {
-        return Converter.convert(db.findById(userId).get(), UserPojo.class);
+        return Converter.convert(userQueries.findById(userId).get(), UserPojo.class);
     }
 
     public List<UserPojo> getList(List<QueryParameter> queryParameters) {
-        return Converter.convert(db.findAll(), UserPojo.class);
+        return Converter.convert(userQueries.findAll(), UserPojo.class);
+    }
+
+    public List<UserPojo> getListByPm(String pm, List<QueryParameter> toParam) {
+        return null; //TODO: Converter.convert(db.findAll(), UserPojo.class);
+    }
+
+    public UserPojo getUserByPm(String pm, String userId) {
+        return Converter.convert(userQueries.getUserByPm(pm, userId), UserPojo.class);
     }
 
 }

@@ -1,7 +1,7 @@
 package com.certimeter.progetto.enums;
 
-public enum Roles {
+public enum Role {
+    USER,
     ADMIN,
-    PM,
-    USER
+    PM
 }

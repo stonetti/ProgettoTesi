@@ -3,7 +3,6 @@ package com.certimeter.progetto;
 import com.certimeter.progetto.controller.macro.MacroController;
 import com.certimeter.progetto.controller.report.ReportController;
 import com.certimeter.progetto.controller.user.UserController;
-import com.certimeter.progetto.model.User;
 import com.certimeter.progetto.repository.UserMapperRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
@@ -31,18 +30,17 @@ class ProgettoApplicationTests {
     void contextLoads() {
     }
 
-    @Test
-    void updateUser() {
-        User user = userController.getUser("60a4e0a54d762e232e1e9eb0");
-        user = updateUser(user);
-        System.out.println(user);
-
-    }
-
-    private User updateUser(User user) {
-        user = userController.updateUser(user);
-        return user;
-    }
+//    @Test
+//    void updateUser() {
+//        User user = userController.getUser("60a4e0a54d762e232e1e9eb0");
+//        user = updateUser(user);
+//        System.out.println(user);
+//    }
+//
+//    private User updateUser(User user) {
+//        user = userController.updateUser(user);
+//        return user;
+//    }
 
     void userInsertTest() {
         // AccountDetails accDet = new AccountDetails();
