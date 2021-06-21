@@ -53,8 +53,8 @@ public class JwtService {
         String accessToken = tokenFactory.getAccessToken(user, role.getRole());
         String refreshToken = tokenFactory.getRefreshToken(user, role.getRole());
         Map<String, Object> tokenMap = new HashMap<>();
-        tokenMap.put("Access Token", accessToken);
-        tokenMap.put("Refresh token", refreshToken);
+        tokenMap.put("accessToken", accessToken);
+        tokenMap.put("refreshToken", refreshToken);
         return tokenMap;
     }
 

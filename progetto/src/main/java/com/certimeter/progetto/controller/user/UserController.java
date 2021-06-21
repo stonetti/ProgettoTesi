@@ -19,6 +19,7 @@ import java.util.function.Function;
 
 @RestController
 @RequestMapping("/users")
+@CrossOrigin
 public class UserController implements UserControllerInterface {
 
     @Autowired

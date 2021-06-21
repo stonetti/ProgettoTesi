@@ -15,6 +15,7 @@ import java.util.function.Function;
 
 @RestController
 @RequestMapping("/reports")
+@CrossOrigin
 public class ReportController implements ReportControllerInterface {
 
     @Autowired

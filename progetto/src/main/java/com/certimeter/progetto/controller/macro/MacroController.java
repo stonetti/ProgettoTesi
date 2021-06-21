@@ -22,6 +22,7 @@ import java.util.function.Function;
 
 @RestController
 @RequestMapping("/macro")
+@CrossOrigin
 public class MacroController implements MacroControllerInterface {
 
     @Autowired
