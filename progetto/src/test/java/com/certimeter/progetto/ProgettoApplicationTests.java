@@ -3,11 +3,13 @@ package com.certimeter.progetto;
 import com.certimeter.progetto.controller.macro.MacroController;
 import com.certimeter.progetto.controller.report.ReportController;
 import com.certimeter.progetto.controller.user.UserController;
+import com.certimeter.progetto.errorHandling.AuthorizationFailureException;
 import com.certimeter.progetto.repository.UserMapperRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.test.context.junit4.SpringRunner;
 
 @SpringBootTest
@@ -30,7 +32,7 @@ class ProgettoApplicationTests {
     void contextLoads() {
     }
 
-//    @Test
+    //    @Test
 //    void updateUser() {
 //        User user = userController.getUser("60a4e0a54d762e232e1e9eb0");
 //        user = updateUser(user);
@@ -41,31 +43,40 @@ class ProgettoApplicationTests {
 //        user = userController.updateUser(user);
 //        return user;
 //    }
+    @Test
+    void userInsertTest() throws AuthorizationFailureException {
 
-    void userInsertTest() {
-        // AccountDetails accDet = new AccountDetails();
-        // accDet.setPassword("Lprova");
-        // accDet.setUsername("Lory");
-        //
-        // AccountDetails accDet2 = new AccountDetails();
-        // accDet2.setPassword("Allyprova");
-        // accDet2.setUsername("Alo23165");
-
-        // List<Integer> bUnits = new ArrayList<>();
-        // bUnits.add(3);
-        // bUnits.add(2);
-        // User user1 = User.builder().accDetails(accDet).businessUnits(bUnits).email("asdo@wee.ij").lastname("Pillow").macro(null).name("Alligan").build();
-        // User user = User.builder().accDetails(accDet2).businessUnits(bUnits).email("wery@wee.ij").lastname("Monday").macro(null).name("Ustru").build();
-        //
-        // userController.createUser(user1);
-        // userController.createUser(user);
-        //
+        String encPwd = BCrypt.hashpw("silvia", BCrypt.gensalt());
+        System.out.println(encPwd);
+//
+//        AccountDetails accDet = new AccountDetails();
+//        accDet.setPassword("Lprova");
+//        accDet.setUsername("Lory");
+//
+//        AccountDetails accDet2 = new AccountDetails();
+//        accDet2.setPassword("Allyprova");
+//        accDet2.setUsername("Alo23165");
+//
+//        List<Role> roles = new ArrayList<>();
+//        roles.add(Role.USER);
+//        roles.add(Role.ADMIN);
+//        roles.add(Role.PM);
+//        List<Integer> bUnits = new ArrayList<>();
+//        bUnits.add(3);
+//        bUnits.add(2);
+//        User user1 = User.builder().accDetails(accDet).defaultRole(Role.USER).businessUnits(bUnits).email("asdo@wee.ij").lastname("Pillow").roles(roles).macro(null).name("Alligan").build();
+//        User user = User.builder().accDetails(accDet2).defaultRole(Role.ADMIN).businessUnits(bUnits).email("wery@wee.ij").roles(roles).lastname("Monday").macro(null).name("Ustru").build();
+//
+//
+//        userController.createUser(user1, "eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJ1cE5nNm4xTmJwVyt2UnBFZlUxV25kRWZwMzhBVysyK3hnOGRtS2JtYnY0PSIsImF1ZCI6IndlYiIsIlJvbGUiOiJVU0VSIiwiVG9rZW5UeXBlIjoiUmVmcmVzaCIsImlhdCI6MTYyMzA4MTU5OSwiZXhwIjoxNjIzMTY3OTk5fQ.JF4v7kgjDViT64lpQyYrm-cRQBO5n7Pd4Bek1-eNxaU");
+//        userController.createUser(user, "eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJ1cE5nNm4xTmJwVyt2UnBFZlUxV25kRWZwMzhBVysyK3hnOGRtS2JtYnY0PSIsImF1ZCI6IndlYiIsIlJvbGUiOiJVU0VSIiwiVG9rZW5UeXBlIjoiUmVmcmVzaCIsImlhdCI6MTYyMzA4MTU5OSwiZXhwIjoxNjIzMTY3OTk5fQ.JF4v7kgjDViT64lpQyYrm-cRQBO5n7Pd4Bek1-eNxaU");
+//        //
         // User user = userController.getUser("60a3df6647078350fc925bd3");
         // User user1 = userController.getUser("60a4cfd8be852b0cc5d980c4");
-        // User user2 = userController.getUser("60a4e0a54d762e232e1e9eaf");
-        //
-        // UserInfo userInfo = createUserInfo(user1);
-        // UserInfo userInfo2 = createUserInfo(user);
+//        // User user2 = userController.getUser("60a4e0a54d762e232e1e9eaf");
+//        //
+//        UserInfo userInfo = createUserInfo(user1);
+//        UserInfo userInfo2 = createUserInfo(user);
         // UserInfo userInfo3 = createUserInfo(user2);
         //
         // List<UserInfo> userInfoList = new ArrayList<>();
@@ -108,15 +119,16 @@ class ProgettoApplicationTests {
 //				.expiringDate(LocalDate.of(2027, 02, 28)).name("MacroTre").pm(userList).subAssignedUsers(userInfoList).build();
 //
 //		return macroController.createMacro(macro);
-//	}
-//
-//	private UserInfo createUserInfo(User user1) {
-//		UserInfo userinfo = new UserInfo();
-//		userinfo.setLastname(user1.getLastname());
-//		userinfo.setName(user1.getName());
-//		userinfo.setId(user1.getId());
-//		return userinfo;
-//	}
+    }
+
+//    //
+//    private UserInfo createUserInfo(User user1) {
+//        UserInfo userinfo = new UserInfo();
+//        userinfo.setLastname(user1.getLastname());
+//        userinfo.setName(user1.getName());
+//        userinfo.setId(user1.getId());
+//        return userinfo;
+//    }
 //
 //	private Activity createActivity(UserInfo userInfo) {
 //		List<UserInfo> userInfoList = new ArrayList<>();
@@ -146,6 +158,6 @@ class ProgettoApplicationTests {
 //		return subAct;
 
 
-    }
+//}
 
 }

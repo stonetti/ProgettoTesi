@@ -65,31 +65,31 @@ public class UserController implements UserControllerInterface {
     @Override
     @PostMapping("/")
     public User createUser(@RequestBody User user, @RequestHeader(name = "Authorization") String token) throws AuthorizationFailureException {
-        return userService.createUser(user, token);
+        return userService.createUser(user, token.substring(7));
     }
 
     @Override
     @PutMapping("/")
     public User updateUser(@RequestBody User user, @RequestHeader(name = "Authorization") String token) throws AuthorizationFailureException {
-        return userService.updateUser(user, token);
+        return userService.updateUser(user, token.substring(7));
     }
 
     @Override
     @DeleteMapping("/{userId}")
     public void deleteUser(@PathVariable String userId, @RequestHeader(name = "Authorization") String token) throws AuthorizationFailureException {
-        userService.deleteUser(userId, token);
+        userService.deleteUser(userId, token.substring(7));
     }
 
     @Override
     @GetMapping("/{userId}")
     public User getUser(@PathVariable String userId, @RequestHeader(name = "Authorization") String token) throws AuthorizationFailureException {
-        return userService.getUser(userId, token);
+        return userService.getUser(userId, token.substring(7));
     }
 
     @Override
     @PostMapping("/list")
     public List<User> getList(@RequestBody UserFilter param, @RequestHeader(name = "Authorization") String token) throws AuthorizationFailureException {//TODO:implementare filtri report
-        return userService.getList(param, token);
+        return userService.getList(param, token.substring(7));
     }
 
     @PostMapping("/login")
@@ -107,12 +107,12 @@ public class UserController implements UserControllerInterface {
 
     @GetMapping("/switch-role/{role}")
     public Map<String, Object> switchRole(@PathVariable Role role, @RequestHeader(name = "Authorization") String token) {
-        return userService.switchRole(role, token);
+        return userService.switchRole(role, token.substring(7));
     }
 
     @GetMapping("/set-default-role/{role}")
     public void setDefaultRole(@PathVariable Role role, @RequestHeader(name = "Authorization") String token) {
-        userService.setDefaultRole(role, token);
+        userService.setDefaultRole(role, token.substring(7));
     }
 
 }

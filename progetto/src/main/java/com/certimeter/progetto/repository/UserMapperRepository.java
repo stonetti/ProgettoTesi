@@ -2,8 +2,8 @@ package com.certimeter.progetto.repository;
 
 import com.certimeter.progetto.dao.UserDao;
 import com.certimeter.progetto.filters.common.QueryParameter;
+import com.certimeter.progetto.persistence.UserQueries;
 import com.certimeter.progetto.pojo.UserPojo;
-import com.certimeter.progetto.queries.UserQueries;
 import com.certimeter.progetto.utilities.Converter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;

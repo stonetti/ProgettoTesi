@@ -50,8 +50,8 @@ public class JwtService {
     }
 
     public Map<String, Object> setTokenMap(User user, Role role) {
-        String accessToken = tokenFactory.getAccessToken(user, role);
-        String refreshToken = tokenFactory.getRefreshToken(user, role);
+        String accessToken = tokenFactory.getAccessToken(user, role.getRole());
+        String refreshToken = tokenFactory.getRefreshToken(user, role.getRole());
         Map<String, Object> tokenMap = new HashMap<>();
         tokenMap.put("Access Token", accessToken);
         tokenMap.put("Refresh token", refreshToken);
@@ -65,10 +65,7 @@ public class JwtService {
     }
 
     public Jws<Claims> getTokenClaims(String token) {
-        System.out.println(token);
         token = token.replace("\"", "");
-        System.out.println(token);
-
         return Jwts.parserBuilder().setSigningKey(jwtSigningKey).build().parseClaimsJws(token);
     }
 

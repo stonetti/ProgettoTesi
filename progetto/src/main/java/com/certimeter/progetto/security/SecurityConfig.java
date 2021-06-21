@@ -16,7 +16,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     public void configure(WebSecurity webSecurity) {
-        webSecurity.ignoring().antMatchers(prop.getLoginUrl(), prop.getRefreshTokenUrl());
+        webSecurity.ignoring().antMatchers(prop.getLoginUrl());
+        webSecurity.ignoring().antMatchers(prop.getRefreshTokenUrl());
     }
 
     @Override

@@ -14,4 +14,6 @@ public class ReportFilter implements QueryParamConverter {
     RequestParameter<LocalDate> date;
     RequestParameter<String> note;
     RequestParameter<String> user;
+    RequestParameter<List<String>> pm;
+
 }

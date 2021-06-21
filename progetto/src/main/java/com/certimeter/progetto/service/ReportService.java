@@ -25,6 +25,7 @@ public class ReportService {
     JwtService jwtService;
 
     public List<Report> getList(ReportFilter param, String token) throws AuthorizationFailureException {
+
         if (authorizationService.isAdmin(token))
             return Converter.convert(reportMapperRepository.getList(param.toParam()), Report.class);
         else if (authorizationService.isPm(token)) {
@@ -40,13 +41,13 @@ public class ReportService {
 
     public Report getReport(String reportId, String token) throws AuthorizationFailureException {
         if (authorizationService.isAdmin(token))
-            return Converter.convert(reportMapperRepository.getReport(reportId), Report.class);
+            return Converter.convert(reportMapperRepository.getReportById(reportId), Report.class);
         else if (authorizationService.isPm(token))
-            return Converter.convert(reportMapperRepository.getReportByPm(reportId), Report.class);
+            return Converter.convert(reportMapperRepository.getReportByIdAndPm(reportId, jwtService.getUserFromToken(token).getId()), Report.class);
         else if (authorizationService.isUser(token)) {
-            Report report = Converter.convert(reportMapperRepository.getReport(reportId), Report.class);
+            Report report = Converter.convert(reportMapperRepository.getReportById(reportId), Report.class);
             User user = jwtService.getUserFromToken(token);
-            if (report.getUser() == user.getId())
+            if (report.getUser().equals(user.getId()))
                 return report;
             else
                 throw new AuthorizationFailureException();
@@ -57,6 +58,8 @@ public class ReportService {
     public Report createReport(Report report, String token) throws AuthorizationFailureException {
         if (authorizationService.isUser(token) || authorizationService.isAdmin(token)) {
             ReportPojo reportpojo = Converter.convert(report, ReportPojo.class);
+            if (authorizationService.isUser(token))
+                reportpojo.setUser(jwtService.getUserFromToken(token).getId());
             return Converter.convert(reportMapperRepository.createReport(reportpojo), Report.class);
         } else
             throw new AuthorizationFailureException();
@@ -64,7 +67,7 @@ public class ReportService {
 
     public Report updateReport(Report report, String token) throws AuthorizationFailureException {
         User user = jwtService.getUserFromToken(token);
-        if (authorizationService.isUser(token) && report.getUser() == user.getId() || authorizationService.isAdmin(token)) {
+        if (authorizationService.isUser(token) && report.getUser().equals(user.getId()) || authorizationService.isAdmin(token)) {
             ReportPojo reportpojo = Converter.convert(report, ReportPojo.class);
             return Converter.convert(reportMapperRepository.updateReport(reportpojo), Report.class);
         } else
@@ -72,12 +75,12 @@ public class ReportService {
     }
 
     public void deleteReport(String reportId, String token) throws AuthorizationFailureException {
-        Report report = Converter.convert(reportMapperRepository.getReport(reportId), Report.class);
+        Report report = Converter.convert(reportMapperRepository.getReportById(reportId), Report.class);
         if (authorizationService.isAdmin(token)) {
             reportMapperRepository.deleteReport(report.getId());
         } else if (authorizationService.isUser(token)) {
             User user = jwtService.getUserFromToken(token);
-            if (report.getUser() == user.getId()) {
+            if (report.getUser().equals(user.getId())) {
                 reportMapperRepository.deleteReport(report.getId());
             } else
                 throw new AuthorizationFailureException();

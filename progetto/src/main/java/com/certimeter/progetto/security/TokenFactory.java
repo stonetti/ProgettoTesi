@@ -1,6 +1,5 @@
 package com.certimeter.progetto.security;
 
-import com.certimeter.progetto.enums.Role;
 import com.certimeter.progetto.model.User;
 import com.certimeter.progetto.service.JwtService;
 import io.jsonwebtoken.Jwts;
@@ -19,19 +18,18 @@ public class TokenFactory {
     private String secretString = "chiave-segreta-per-signature-jwt-progetto-0109";
     private SecretKey key = Keys.hmacShaKeyFor(secretString.getBytes(StandardCharsets.UTF_8));
 
-    public String getAccessToken(User user, Role role) {
-
+    public String getAccessToken(User user, String role) {
         String iss = jwt.createIssuerFromUser(user);
-        String token = Jwts.builder().setIssuer(iss).setAudience("web").claim("Scope", Role.PM).claim("TokenType", "Access").setIssuedAt(new Date())
+        String token = Jwts.builder().setIssuer(iss).setAudience("web").claim("Role", role).claim("TokenType", "Access").setIssuedAt(new Date())
                 .setExpiration(new Date(System.currentTimeMillis() + 900000))// 15 min
                 .signWith(key).compact();
 
         return token;
     }
 
-    public String getRefreshToken(User user, Role role) {
+    public String getRefreshToken(User user, String role) {
         String iss = jwt.createIssuerFromUser(user);
-        String token = Jwts.builder().setIssuer(iss).setAudience("web").claim("Scope", Role.PM).claim("TokenType", "Refresh").setIssuedAt(new Date())
+        String token = Jwts.builder().setIssuer(iss).setAudience("web").claim("Role", role).claim("TokenType", "Refresh").setIssuedAt(new Date())
                 .setExpiration(new Date(System.currentTimeMillis() + 86400000))// 24 ore
                 .signWith(key).compact();
 

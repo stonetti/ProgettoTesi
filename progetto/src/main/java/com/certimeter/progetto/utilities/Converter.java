@@ -60,7 +60,6 @@ public class Converter {
                 break;
             case STARTS:
                 String re = list.get(0).toString();
-                System.out.println(re);
                 crit = Criteria.where(key).regex(re + ".", "i");
                 break;
             case ENDS:

@@ -30,6 +30,7 @@ public class ReportController implements ReportControllerInterface {
             report.setNote(pojo.getNote());
             report.setUser(pojo.getUser());
             report.setDate(pojo.getDate());
+            report.setPm(pojo.getPm());
             return report;
         };
         Converter.put(ReportPojo.class, Report.class, toModel);
@@ -42,6 +43,7 @@ public class ReportController implements ReportControllerInterface {
             pojo.setNote(report.getNote());
             pojo.setDate(report.getDate());
             pojo.setUser(report.getUser());
+            pojo.setPm(report.getPm());
             return pojo;
         };
 
@@ -51,31 +53,31 @@ public class ReportController implements ReportControllerInterface {
     @Override
     @PostMapping("/list")
     public List<Report> getList(@RequestBody ReportFilter param, @RequestHeader(name = "Authorization") String token) throws AuthorizationFailureException {
-        return reportService.getList(param, token);
+        return reportService.getList(param, token.substring(7));
     }
 
     @Override
     @GetMapping("/{reportId}")
     public Report getReport(@PathVariable String reportId, @RequestHeader(name = "Authorization") String token) throws AuthorizationFailureException {
-        return reportService.getReport(reportId, token);
+        return reportService.getReport(reportId, token.substring(7));
     }
 
     @Override
     @PostMapping("/")
     public Report createReport(@RequestBody Report report, @RequestHeader(name = "Authorization") String token) throws AuthorizationFailureException {
-        return reportService.createReport(report, token);
+        return reportService.createReport(report, token.substring(7));
     }
 
     @Override
     @PutMapping("/")
     public Report updateReport(@RequestBody Report report, @RequestHeader(name = "Authorization") String token) throws AuthorizationFailureException {
-        return reportService.updateReport(report, token);
+        return reportService.updateReport(report, token.substring(7));
 
     }
 
     @Override
     @DeleteMapping("/{reportId}")
     public void deleteReport(@PathVariable String reportId, @RequestHeader(name = "Authorization") String token) throws AuthorizationFailureException {
-        reportService.deleteReport(reportId, token);
+        reportService.deleteReport(reportId, token.substring(7));
     }
 }

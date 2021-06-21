@@ -4,15 +4,18 @@ import com.certimeter.progetto.dao.ActivityDao;
 import com.certimeter.progetto.dao.MacroDao;
 import com.certimeter.progetto.dao.UserDao;
 import com.certimeter.progetto.dao.UserInfoDao;
+import com.certimeter.progetto.errorHandling.AuthorizationFailureException;
 import com.certimeter.progetto.filters.common.QueryParameter;
+import com.certimeter.progetto.persistence.MacroQueries;
 import com.certimeter.progetto.pojo.ActivityPojo;
 import com.certimeter.progetto.pojo.MacroPojo;
 import com.certimeter.progetto.pojo.UserInfoPojo;
 import com.certimeter.progetto.pojo.UserPojo;
-import com.certimeter.progetto.queries.MacroQueries;
 import com.certimeter.progetto.utilities.Converter;
+import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Repository;
 
@@ -22,7 +25,7 @@ import java.util.function.Function;
 
 @Repository
 public class MacroMapperRepository {
-	
+
     @Autowired
     MacroQueries db;
 
@@ -114,6 +117,11 @@ public class MacroMapperRepository {
         return Converter.convert(db.findById(macroId).get(), MacroPojo.class);
     }
 
+    public MacroPojo getMacroByIdAndPm(String macroId, String pm) throws AuthorizationFailureException {
+        MacroDao macroResult = db.findByIdAndPm(macroId, pm).orElseThrow(AuthorizationFailureException::new);
+        return Converter.convert(macroResult, MacroPojo.class);
+    }
+
     public MacroPojo createMacro(MacroPojo macro) {
         MacroDao macrodao = Converter.convert(macro, MacroDao.class);
         return Converter.convert(db.save(macrodao), MacroPojo.class);
@@ -135,4 +143,19 @@ public class MacroMapperRepository {
         return Converter.convert(mongoTemplate.find(query, MacroDao.class), MacroPojo.class);
     }
 
+    public List<MacroPojo> getListByPm(String pm, List<QueryParameter> params) {
+        Query query = new Query();
+        for (QueryParameter param : params)
+            query.addCriteria(Converter.toCriteria(param.getKey(), param.getOp(), param.getValue()));
+        query.addCriteria(Criteria.where("pm._id").is(new ObjectId(pm)));
+        return Converter.convert(mongoTemplate.find(query, MacroDao.class), MacroPojo.class);
+    }
+
+    public List<MacroPojo> getListByUser(String user, List<QueryParameter> params) {
+        Query query = new Query();
+        for (QueryParameter param : params)
+            query.addCriteria(Converter.toCriteria(param.getKey(), param.getOp(), param.getValue()));
+        query.addCriteria(Criteria.where("assignedUsers._id").is(new ObjectId(user)).orOperator(Criteria.where("subAssignedUsers._id").is(new ObjectId(user))));
+        return Converter.convert(mongoTemplate.find(query, MacroDao.class), MacroPojo.class);
+    }
 }

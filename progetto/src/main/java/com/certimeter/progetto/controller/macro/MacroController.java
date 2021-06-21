@@ -112,34 +112,32 @@ public class MacroController implements MacroControllerInterface {
     @PostMapping("/list")
     @Override
     public List<Macro> getList(@RequestBody MacroFilter param, @RequestHeader(name = "Authorization") String token) throws AuthorizationFailureException {
-        return macroService.getList(param, token);
+        return macroService.getList(param, token.substring(7));
     }
 
     @GetMapping("/{macroId}")
     @Override
-    public Macro getMacro(@PathVariable String macroId, @RequestHeader(name = "Authorization") String token) {
-        return Converter.convert(repo.getMacro(macroId), Macro.class);
+    public Macro getMacro(@PathVariable String macroId, @RequestHeader(name = "Authorization") String token) throws AuthorizationFailureException {
+        return macroService.getMacro(macroId, token.substring(7));
     }
 
     @PostMapping("/")
     @Override
-    public Macro createMacro(@RequestBody Macro macro, @RequestHeader(name = "Authorization") String token) {
-
-        MacroPojo macropojo = Converter.convert(macro, MacroPojo.class);
-        return Converter.convert(repo.createMacro(macropojo), Macro.class);
+    public Macro createMacro(@RequestBody Macro macro, @RequestHeader(name = "Authorization") String token) throws AuthorizationFailureException {
+        return macroService.createMacro(macro, token.substring(7));
     }
 
     @PutMapping("/")
     @Override
-    public Macro updateMacro(@RequestBody Macro macro, @RequestHeader(name = "Authorization") String token) {
-        MacroPojo macropojo = Converter.convert(macro, MacroPojo.class);
-        return Converter.convert(repo.updateMacro(macropojo), Macro.class);
+    public Macro updateMacro(@RequestBody Macro macro, @RequestHeader(name = "Authorization") String token) throws AuthorizationFailureException {
+        return macroService.updateMacro(macro, token.substring(7));
+
     }
 
     @DeleteMapping("/{macroId}")
     @Override
-    public void deleteMacro(@PathVariable String macroId, @RequestHeader(name = "Authorization") String token) {
-        repo.deleteMacro(macroId);
+    public void deleteMacro(@PathVariable String macroId, @RequestHeader(name = "Authorization") String token) throws AuthorizationFailureException {
+        macroService.deleteMacro(macroId, token.substring(7));
     }
 
 }

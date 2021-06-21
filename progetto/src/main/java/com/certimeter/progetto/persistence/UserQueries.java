@@ -1,4 +1,4 @@
-package com.certimeter.progetto.queries;
+package com.certimeter.progetto.persistence;
 
 import com.certimeter.progetto.dao.UserDao;
 import org.springframework.data.mongodb.repository.MongoRepository;

@@ -6,8 +6,8 @@ import com.certimeter.progetto.errorHandling.AuthorizationFailureException;
 import com.certimeter.progetto.filters.UserFilter;
 import com.certimeter.progetto.model.AccountDetails;
 import com.certimeter.progetto.model.User;
+import com.certimeter.progetto.persistence.UserQueries;
 import com.certimeter.progetto.pojo.UserPojo;
-import com.certimeter.progetto.queries.UserQueries;
 import com.certimeter.progetto.repository.UserMapperRepository;
 import com.certimeter.progetto.utilities.Converter;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,7 +50,7 @@ public class UserService {
             if (authorizationService.isPm(token)) {
                 String pm = id;
                 return Converter.convert(userMapperRepository.getUserByPm(pm, userId), User.class);
-            } else if (id == userId)
+            } else if (id.equals(userId))
                 return Converter.convert(userMapperRepository.getUser(userId), User.class);
             else
                 throw new AuthorizationFailureException();
@@ -80,7 +80,12 @@ public class UserService {
             return Converter.convert(userMapperRepository.updateUser(userpojo), User.class);
         } else {
             final User userFromToken = jwtService.getUserFromToken(token);
-            if (userFromToken.getId() == updatedUser.getId()) {
+            //DEBUG
+            System.out.println(userFromToken.getId());
+            System.out.println(updatedUser.getId());
+            System.out.println(updatedUser);
+            System.out.println(userFromToken.getId().equals(updatedUser.getId()));
+            if (userFromToken.getId().equals(updatedUser.getId())) {
                 userFromToken.setAccDetails(updatedUser.getAccDetails());
                 userpojo = Converter.convert(userFromToken, UserPojo.class);
                 return Converter.convert(userMapperRepository.updateUser(userpojo), User.class);
@@ -93,7 +98,8 @@ public class UserService {
     public Map<String, Object> userLogin(AccountDetails login) throws Exception {
         if (login.getUsername() == null || login.getPassword() == null)
             throw new ServletException("Invalid username or password!");
-        User user = Converter.convert(userQueries.findByUsername(login.getUsername()), User.class);
+        UserPojo userpojo = Converter.convert(userQueries.findByUsername(login.getUsername()), UserPojo.class);
+        User user = Converter.convert(userpojo, User.class);
         if (user == null)
             throw new ServletException("User not found!");
         if (!jwtService.passwordCheck(user, login))
@@ -103,9 +109,9 @@ public class UserService {
 
     public Map<String, Object> switchRole(Role role, String token) {
         User user = jwtService.getUserFromToken(token);
-        if (user.getRoles().contains(role))
+        if (user.getRoles().contains(role)) {
             return jwtService.setTokenMap(user, role);
-        else
+        } else
             return jwtService.setTokenMap(user, user.getDefaultRole());
     }
 

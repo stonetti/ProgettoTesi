@@ -18,14 +18,14 @@ public class AuthorizationService {
     }
 
     public boolean isPm(String token) {
-        return jwt.getTokenClaims(token).getBody().get("Role", Role.class) == Role.PM;
+        return jwt.getTokenClaims(token).getBody().get("Role").equals(Role.PM.getRole());
     }
 
     public boolean isAdmin(String token) {
-        return jwt.getTokenClaims(token).getBody().get("Role", Role.class) == Role.ADMIN;
+        return jwt.getTokenClaims(token).getBody().get("Role").equals(Role.ADMIN.getRole());
     }
 
     public boolean isUser(String token) {
-        return jwt.getTokenClaims(token).getBody().get("Role", Role.class) == Role.USER;
+        return jwt.getTokenClaims(token).getBody().get("Role").equals(Role.USER.getRole());
     }
 }

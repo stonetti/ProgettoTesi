@@ -1,13 +1,14 @@
 package com.certimeter.progetto.repository;
 
 import com.certimeter.progetto.dao.ReportDao;
+import com.certimeter.progetto.errorHandling.AuthorizationFailureException;
 import com.certimeter.progetto.filters.common.QueryParameter;
-import com.certimeter.progetto.model.Report;
+import com.certimeter.progetto.persistence.ReportQueries;
 import com.certimeter.progetto.pojo.ReportPojo;
-import com.certimeter.progetto.queries.ReportQueries;
 import com.certimeter.progetto.utilities.Converter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Repository;
 
@@ -35,6 +36,7 @@ public class ReportMapperRepository {
             report.setNote(pojo.getNote());
             report.setUser(pojo.getUser());
             report.setDate(pojo.getDate());
+            report.setPm(pojo.getPm());
             return report;
         };
         Converter.put(ReportPojo.class, ReportDao.class, toDao);
@@ -47,6 +49,7 @@ public class ReportMapperRepository {
             pojo.setNote(report.getNote());
             pojo.setDate(report.getDate());
             pojo.setUser(report.getUser());
+            pojo.setPm(report.getPm());
             return pojo;
         };
 
@@ -67,7 +70,7 @@ public class ReportMapperRepository {
         db.deleteById(reportId);
     }
 
-    public ReportPojo getReport(String reportId) {
+    public ReportPojo getReportById(String reportId) {
         return Converter.convert(db.findById(reportId).get(), ReportPojo.class);
     }
 
@@ -78,15 +81,29 @@ public class ReportMapperRepository {
         return Converter.convert(mongoTemplate.find(query, ReportDao.class), ReportPojo.class);
     }
 
-    public List<ReportPojo> getListByPm(String pm, List<QueryParameter> toParam) {
-        return null; //TODO: Converter.convert();
+    public List<ReportPojo> getListByPm(String pm, List<QueryParameter> params) {
+        Query query = new Query();
+        for (QueryParameter param : params)
+            query.addCriteria(Converter.toCriteria(param.getKey(), param.getOp(), param.getValue()));
+        query.addCriteria(Criteria.where("pm").is(pm));
+        return Converter.convert(mongoTemplate.find(query, ReportDao.class), ReportPojo.class);
     }
 
-    public List<ReportPojo> getListByUser(String user, List<QueryParameter> toParam) {
-        return null; //TODO: Converter.convert();
+    public List<ReportPojo> getListByUser(String user, List<QueryParameter> params) {
+        Query query = new Query();
+        for (QueryParameter param : params)
+            query.addCriteria(Converter.toCriteria(param.getKey(), param.getOp(), param.getValue()));
+        query.addCriteria(Criteria.where("user").is(user));
+        return Converter.convert(mongoTemplate.find(query, ReportDao.class), ReportPojo.class);
     }
 
-    public Report getReportByPm(String reportId) {
-        return null;//TODO: Converter.convert();
+    public ReportPojo getReportByIdAndPm(String reportId, String pm) throws AuthorizationFailureException {
+        ReportDao reportResult = db.findByIdAndPm(reportId, pm).orElseThrow(AuthorizationFailureException::new);
+        return Converter.convert(reportResult, ReportPojo.class);
+    }
+
+    public List<ReportPojo> getReportByMacroId(String macroId) {
+        List<ReportDao> reportResult = db.findByMacroId(macroId);
+        return Converter.convert(reportResult, ReportPojo.class);
     }
 }
