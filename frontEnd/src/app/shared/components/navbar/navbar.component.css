@@ -1,0 +1,32 @@
+@media all and (min-width: 992px) {
+
+  .navbar .nav-item .dropdown-menu{
+    display: none;
+  }
+
+  .navbar .nav-item:hover .dropdown-menu{
+    display: block;
+  }
+  .navbar .nav-item .dropdown-menu{
+    margin-top:0;
+  }
+
+  .nav-item{
+    font-size: 24px;
+    margin: 20px;
+  }
+
+  .dropdown-item:hover{
+    background-color: rgba(190, 195, 224, 0.98);
+  }
+
+  nav{
+    background-color: rgba(190, 195, 224, 0.98) !important;
+    height: 80px;
+  }
+
+  nav button{
+    background-color: rgba(21, 40, 109, 0.95) !important;
+    color: #fff;
+  }
+}

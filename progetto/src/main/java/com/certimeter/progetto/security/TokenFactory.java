@@ -19,8 +19,10 @@ public class TokenFactory {
     private SecretKey key = Keys.hmacShaKeyFor(secretString.getBytes(StandardCharsets.UTF_8));
 
     public String getAccessToken(User user, String role) {
-        String iss = jwt.createIssuerFromUser(user);
-        String token = Jwts.builder().setIssuer(iss).setAudience("web").claim("Role", role).claim("TokenType", "Access").setIssuedAt(new Date())
+        String token = Jwts.builder().setAudience("web")
+                .claim("username", user.getAccDetails().getUsername())
+                .claim("email", user.getEmail())
+                .claim("Role", role).claim("TokenType", "Access").setIssuedAt(new Date())
                 .setExpiration(new Date(System.currentTimeMillis() + 900000))// 15 min
                 .signWith(key).compact();
 
@@ -28,8 +30,10 @@ public class TokenFactory {
     }
 
     public String getRefreshToken(User user, String role) {
-        String iss = jwt.createIssuerFromUser(user);
-        String token = Jwts.builder().setIssuer(iss).setAudience("web").claim("Role", role).claim("TokenType", "Refresh").setIssuedAt(new Date())
+        String token = Jwts.builder().setAudience("web")
+                .claim("username", user.getAccDetails().getUsername())
+                .claim("email", user.getEmail())
+                .claim("Role", role).claim("TokenType", "Access").setIssuedAt(new Date())
                 .setExpiration(new Date(System.currentTimeMillis() + 86400000))// 24 ore
                 .signWith(key).compact();
 

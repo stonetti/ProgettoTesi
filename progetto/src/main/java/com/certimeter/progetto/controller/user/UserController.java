@@ -95,6 +95,7 @@ public class UserController implements UserControllerInterface {
 
     @PostMapping("/login")
     public Map<String, Object> login(@RequestBody AccountDetails login) throws Exception {
+        System.out.println(login);
         return userService.userLogin(login);
     }
 
