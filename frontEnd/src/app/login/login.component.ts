@@ -3,7 +3,7 @@ import { AuthService} from "../service/auth.service";
 import { TokenStorageService} from "../service/token-storage.service";
 import {UserLogin} from "../model/UserLogin";
 import {Router} from "@angular/router";
-import {User} from "../model/User";
+
 import jwt_decode from 'jwt-decode';
 
 @Component({
