@@ -1,0 +1,30 @@
+.month{
+  font-size: 50px;
+}
+table td:hover {
+  background-color: #d7eaff;
+
+}
+th{
+  padding: 1px;
+  font-size: 10px;
+  background-color: #3cb0f8;
+  color: white;
+}
+
+td{
+  font-size: 10px;
+}
+
+table {
+  table-layout: fixed;
+  margin: auto;
+  text-align: center;
+}
+table th, table td {
+  overflow: hidden;
+  text-overflow: ellipsis
+}
+.container{
+  float: left;
+}
