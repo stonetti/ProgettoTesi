@@ -12,41 +12,39 @@
   }
 
   .nav-item{
-    font-size: 24px;
+    font-size: 18px;
     margin: 20px;
   }
 
   nav button{
-    background-color: rgba(21, 40, 109, 0.95) !important;
-    color: #fff;
+    background-color: #d7eaff!important;
+    color: #8b8b8b;
   }
   .dropdown-menu a{
     color: #3cb0f8 !important;
   }
 }
-
 .dropdown-item:hover{
   background-color: #d7eaff;
 }
 
 .navbar-toggler{
-  background-color: rgba(21, 40, 109, 0.95) !important;
-
+  background-color:#d7eaff !important;
 }
 .navbar-toggler-icon {
   background-image: url("data:image/svg+xml,%3csvg viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3e%3cpath stroke='rgba(255, 255, 255, 0.5)' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
 }
 
 nav ul li a, #navbarDropdown{
-  color: white;
+  color: #898787;
 }
 
 .loginImgWidth{
-  width: 180px;
-  background-color: white;
+  width: 100px;
+  position: relative;
 }
 
 nav{
-  background-color: #3cb0f8 !important;
-  height: 80px;
+  background-color: white !important;
+  height: 50px;
 }

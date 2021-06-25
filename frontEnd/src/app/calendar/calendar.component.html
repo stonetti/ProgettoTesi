@@ -1,0 +1,75 @@
+<div class="container col-md-12">
+
+  <div class="row top-calendar-buttons">
+
+    <div class="col-4 ">
+      <div class="btn-group">
+        <button class="btn btn-secondary btn-sm dropdown-toggle" type="button" id="dropdownMenuButtonMonth"
+                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          {{dateToString.toMonthName(focusedMonth.getMonth())}}
+        </button>
+        <div class="dropdown-menu" aria-labelledby="dropdownMenuButtonMonth">
+          <a class="dropdown-item" (click)="displaySelectedMonth(i)" *ngFor="let month; let i = index of months ">{{month}}</a>
+        </div>
+      </div>
+      <div class="btn-group">
+        <button class="btn btn-secondary btn-sm dropdown-toggle" type="button" id="dropdownMenuButtonYear"
+                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          {{ focusedMonth.getFullYear()}}
+        </button>
+        <div class="dropdown-menu" aria-labelledby="dropdownMenuButtonYear">
+          <a class="dropdown-item" (click)="displaySelectedYear(year)" *ngFor="let year of yearRange">{{year}}</a>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-2 offset-6">
+      <div class="download-excel">
+        <button type="button" (click)="exportExcel()" class="btn btn-sm btn-success">Download</button>
+      </div>
+      <div class="change-month">
+        <button type="button" (click)="displayPreviousMonth()" class="btn btn-primary btn-sm"><</button>
+        <button type="button" (click)="displayCurrentMonth()" class="btn btn-primary btn-sm">Oggi</button>
+        <button type="button" (click)="displayNextMonth()" class="btn btn-primary btn-sm">></button>
+      </div>
+    </div>
+  </div>
+
+
+  <table class="table table-striped table-bordered">
+
+    <thead>
+    <tr>
+      <th>#</th>
+      <th *ngFor="let day of currentMonthDays">{{day.dayNumber}}<br>{{day.dayName}}</th>
+      <th>totale</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    <tr>
+      <th scope="row">Totale</th>
+      <td *ngFor="let cell of rows" (click)="say(cell + '')"></td>
+      <td></td>
+    </tr>
+    <tr *ngFor="let row of columns">
+      <th class="row-header">macro</th>
+      <td *ngFor="let cell of rows" (click)="say(row+cell)"></td>
+      <td></td>
+    </tr>
+
+    </tbody>
+  </table>
+</div>
+<!--TODO: inserire highlight(validazione) su totale ore
+    TODO: totale mese e totale macro
+    TODO: https://bootstrap-calendar.eivissapp.com/ alternativa calendario-->
+
+<!--Questa è da mettere nella visualizzazione delle macro, non qui-->
+<!--<div class="container col-md-2 ">-->
+<!--  <div class="custom-view">-->
+<!--    <select name="view-interval" id="view-interval">-->
+<!--      <option value="annual">Anno</option>-->
+<!--      <option value="monthly">Mese</option>-->
+<!--    </select>-->
+<!--  </div>-->
+<!--</div>-->

@@ -3,6 +3,7 @@ import { AuthService} from "../service/auth.service";
 import { TokenStorageService} from "../service/token-storage.service";
 import {UserLogin} from "../model/UserLogin";
 import {Router} from "@angular/router";
+import {User} from "../model/User";
 
 import jwt_decode from 'jwt-decode';
 
@@ -47,7 +48,7 @@ export class LoginComponent implements OnInit {
     );
   }
 
-  private getTokenFields(accessToken : string) : any {
+  private getTokenFields(accessToken : string) : User {
     return jwt_decode(accessToken);
   }
 

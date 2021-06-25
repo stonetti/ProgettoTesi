@@ -1,0 +1,53 @@
+
+table td:hover {
+  background-color: #d7eaff;
+
+}
+th{
+  padding: 1px;
+  font-size: 10px;
+  background-color: #3cb0f8;
+  color: white;
+}
+
+td{
+  font-size: 10px;
+}
+
+table {
+  table-layout: fixed;
+  margin: auto;
+  text-align: center;
+}
+table th, table td {
+  overflow: hidden;
+  text-overflow: ellipsis
+}
+.container{
+  float: left;
+}
+
+.change-month{
+  float: right;
+  padding-bottom: 10px;
+}
+
+.download-excel button{
+  float: right;
+
+}
+.change-month button{
+  border: solid 1px;
+}
+
+.row-header{
+  font-size: 8px;
+}
+.top-calendar-buttons>div  {
+  margin-top: 40px;
+}
+
+.top-calendar-buttons p {
+  font-size: 24px;
+  margin-left: 10px;
+}

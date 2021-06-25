@@ -22,7 +22,7 @@ public class TokenFactory {
         String token = Jwts.builder().setAudience("web")
                 .claim("username", user.getAccDetails().getUsername())
                 .claim("email", user.getEmail())
-                .claim("Role", role).claim("TokenType", "Access").setIssuedAt(new Date())
+                .claim("role", role).claim("TokenType", "Access").setIssuedAt(new Date())
                 .setExpiration(new Date(System.currentTimeMillis() + 900000))// 15 min
                 .signWith(key).compact();
 
@@ -33,7 +33,7 @@ public class TokenFactory {
         String token = Jwts.builder().setAudience("web")
                 .claim("username", user.getAccDetails().getUsername())
                 .claim("email", user.getEmail())
-                .claim("Role", role).claim("TokenType", "Access").setIssuedAt(new Date())
+                .claim("role", role).claim("TokenType", "Access").setIssuedAt(new Date())
                 .setExpiration(new Date(System.currentTimeMillis() + 86400000))// 24 ore
                 .signWith(key).compact();
 

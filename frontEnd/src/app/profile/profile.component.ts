@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { TokenStorageService} from "../service/token-storage.service";
+import {User} from "../model/User";
 
 @Component({
   selector: 'app-profile',
@@ -8,7 +9,7 @@ import { TokenStorageService} from "../service/token-storage.service";
 })
 export class ProfileComponent implements OnInit {
 
-  currentUser: any;
+  currentUser?: User;
 
   constructor(private token: TokenStorageService) { }
 

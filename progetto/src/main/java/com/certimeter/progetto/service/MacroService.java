@@ -33,7 +33,6 @@ public class MacroService {
             return Converter.convert(macroMapperRepository.getAll(param.toParam()), Macro.class);
         else if (authorizationService.isPm(token)) {
             String pm = jwtService.getUserFromToken(token).getId();
-
             return Converter.convert(macroMapperRepository.getListByPm(pm, param.toParam()), Macro.class);
         } else if (authorizationService.isUser(token)) {
             String user = jwtService.getUserFromToken(token).getId();
