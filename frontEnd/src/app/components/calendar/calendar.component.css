@@ -44,10 +44,12 @@ table th, table td {
   font-size: 8px;
 }
 .top-calendar-buttons>div  {
-  margin-top: 40px;
+  margin-top: 10px;
 }
 
 .top-calendar-buttons p {
   font-size: 24px;
   margin-left: 10px;
 }
+
+a { color: inherit; }

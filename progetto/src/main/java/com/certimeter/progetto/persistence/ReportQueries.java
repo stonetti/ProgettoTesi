@@ -10,8 +10,9 @@ import java.util.Optional;
 public interface ReportQueries extends MongoRepository<ReportDao, String> {
 
     Optional<ReportDao> findByIdAndPm(String reportId, String pm);
-    
+
     @Query("{ 'idPath.0' : ?0}")
     List<ReportDao> findByMacroId(String macroId);
+    
 }
 

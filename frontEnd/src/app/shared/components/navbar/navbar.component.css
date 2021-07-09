@@ -47,4 +47,5 @@ nav ul li a, #navbarDropdown{
 nav{
   background-color: white !important;
   height: 50px;
+  margin-bottom: 30px;
 }

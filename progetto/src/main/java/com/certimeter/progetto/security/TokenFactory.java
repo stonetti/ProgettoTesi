@@ -23,7 +23,7 @@ public class TokenFactory {
                 .claim("username", user.getAccDetails().getUsername())
                 .claim("email", user.getEmail())
                 .claim("role", role).claim("TokenType", "Access").setIssuedAt(new Date())
-                .setExpiration(new Date(System.currentTimeMillis() + 900000))// 15 min
+                .setExpiration(new Date(System.currentTimeMillis() + 9000000))// 15 min
                 .signWith(key).compact();
 
         return token;

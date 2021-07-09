@@ -78,7 +78,7 @@ public class MacroService {
             MacroPojo macroPojo = Converter.convert(macro, MacroPojo.class);
             return Converter.convert(macroMapperRepository.createMacro(macroPojo), Macro.class);
         } else if (authorizationService.isPm(token))//DEBUG
-            throw new AuthorizationFailureException();
+            throw new AuthorizationFailureException();//TODO
         else if (authorizationService.isUser(token))
             throw new AuthorizationFailureException();
         else

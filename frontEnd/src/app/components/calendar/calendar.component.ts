@@ -1,8 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import * as FileSaver from 'file-saver';
 import {startOfMonth, addDays, addMonths, isSameDay, lastDayOfMonth, subMonths} from 'date-fns'
-import {Day} from "../model/day";
-import {DateToString} from "../shared/utilities/dateToString";
+import {Day} from "../../model/day";
+import {DateToString} from "../../shared/utilities/dateToString";
+import {DbConnection} from "../../service/dbConnection";
 
 
 @Component({
@@ -12,6 +13,9 @@ import {DateToString} from "../shared/utilities/dateToString";
 })
 
 export class CalendarComponent implements OnInit {
+
+  @Input () tableHeaders :Map<string,string> = new Map<string, string>();
+  @Input() link : string = '';
   months : string[] = ["Gennaio",
     "Febbraio",
     "Marzo",
@@ -26,39 +30,30 @@ export class CalendarComponent implements OnInit {
     "Dicembre"]
 
   yearRange : number[] = [];
-
   todayDate : Date = new Date();
   currentMonthDays = new Array<Day>();
   columns:string[]=[];
   rows:number[]=[];
   i = 0;
   focusedMonth : Date = this.todayDate;
-  macro : String [] = [];
+  errorMsg : String = '';
 
-  constructor(public dateToString : DateToString) { }
+  constructor(public dateToString : DateToString, public dbConnection : DbConnection) { }
 
   ngOnInit(): void {
-    let j = 0;
+    this.setChangeMonthButtons();
     this.setColumns(this.focusedMonth);
     this.setRows();
-   // this.macro = getMacro();
-    let year = this.todayDate.getFullYear();
-    let k =3;
-    for(j; j<3; j++) {
-      this.yearRange.push(year-k)
-      k--;
-    }
-    for(j =0; j<3; j++) {
-      this.yearRange.push(year+j)
-    }
   }
 
   private setRows() {
     this.rows = [];
     this.columns = [];
+    let i = 0;
     /*Imposta righe tabella*/
-    for (let i=0; i<5;i++){
-      this.columns.push(String.fromCharCode(65+i));
+    for(let doc of this.tableHeaders) {
+      this.columns.push(String.fromCharCode(65 + i));
+      i++;
     }
     let gridSize = this.i;
     for (let i=0; i<gridSize;i++){
@@ -78,13 +73,6 @@ export class CalendarComponent implements OnInit {
       this.i++;
     }
   }
-
-
-
-  say(s: string) {
-    alert(s)
-  }
-
 
   exportExcel() {
     import("xlsx").then(xlsx => {
@@ -132,5 +120,19 @@ export class CalendarComponent implements OnInit {
     this.focusedMonth.setFullYear(year)
     this.setColumns(this.focusedMonth);
     this.setRows();
+  }
+
+
+  private setChangeMonthButtons() {
+    let j = 0;
+    let year = this.todayDate.getFullYear();
+    let k =3;
+    for(j; j<3; j++) {
+      this.yearRange.push(year-k)
+      k--;
+    }
+    for(j =0; j<3; j++) {
+      this.yearRange.push(year+j)
+    }
   }
 }

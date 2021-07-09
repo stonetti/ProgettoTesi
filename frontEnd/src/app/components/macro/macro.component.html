@@ -1,0 +1,8 @@
+<app-navbar></app-navbar>
+<p>macro works!</p>
+
+<div *ngFor="let macro of macros">
+  <a class="nav-link" [routerLink]="['/macro', macro.name]">{{macro.name}}</a>
+</div>
+
+

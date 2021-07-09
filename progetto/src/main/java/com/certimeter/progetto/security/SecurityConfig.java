@@ -22,6 +22,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
+        http.cors();//TODO implementare filtro custom
         http.csrf().disable().antMatcher("/**").addFilterBefore(new JwtFilter(), UsernamePasswordAuthenticationFilter.class);
     }
 

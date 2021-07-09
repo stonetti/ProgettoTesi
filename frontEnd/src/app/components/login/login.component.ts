@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { AuthService} from "../service/auth.service";
-import { TokenStorageService} from "../service/token-storage.service";
-import {UserLogin} from "../model/UserLogin";
+import { AuthService} from "../../service/auth.service";
+import { TokenStorageService} from "../../service/token-storage.service";
+import {UserLogin} from "../../model/userLogin";
 import {Router} from "@angular/router";
-import {User} from "../model/User";
+import {User} from "../../model/user";
 
 import jwt_decode from 'jwt-decode';
 
@@ -39,7 +39,7 @@ export class LoginComponent implements OnInit {
         this.tokenStorage.saveUser(decodedUser);
         this.isLoginFailed = false;
         this.isLoggedIn = true;
-        this.router.navigate(['home']);
+        this.router.navigate(['report']);
       },
       err => {
         this.errorMessage = err.error.message;

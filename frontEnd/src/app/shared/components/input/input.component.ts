@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {UserLogin} from "../../../model/UserLogin";
+import {UserLogin} from "../../../model/userLogin";
 
 @Component({
   selector: 'app-input',

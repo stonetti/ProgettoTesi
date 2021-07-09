@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient} from '@angular/common/http';
 import { Observable } from 'rxjs';
-import {UserLogin} from "../model/UserLogin";
-import {User} from "../model/User";
+import {UserLogin} from "../model/userLogin";
+import {User} from "../model/user";
 
 const API_URL = 'http://localhost:8080/users/';
 

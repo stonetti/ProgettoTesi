@@ -48,12 +48,19 @@
     <tbody>
     <tr>
       <th scope="row">Totale</th>
-      <td *ngFor="let cell of rows" (click)="say(cell + '')"></td>
+      <td *ngFor="let cell of rows"><!-- (click)=""--> </td>
       <td></td>
     </tr>
-    <tr *ngFor="let row of columns">
-      <th class="row-header">macro</th>
-      <td *ngFor="let cell of rows" (click)="say(row+cell)"></td>
+    <tr *ngFor="let content of tableHeaders|keyvalue">
+
+      <th class="row-header">
+        <a routerLink='{{link}}{{content.key}}'>
+          {{content.value}}
+        </a>
+      </th>
+<!--TODO: inserire anchor alla macro-->
+
+      <td *ngFor="let cell of rows"><!-- (click)=""--></td>
       <td></td>
     </tr>
 
@@ -61,7 +68,6 @@
   </table>
 </div>
 <!--TODO: inserire highlight(validazione) su totale ore
-    TODO: totale mese e totale macro
     TODO: https://bootstrap-calendar.eivissapp.com/ alternativa calendario-->
 
 <!--Questa è da mettere nella visualizzazione delle macro, non qui-->

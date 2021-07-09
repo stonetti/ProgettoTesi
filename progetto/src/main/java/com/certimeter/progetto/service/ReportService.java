@@ -2,6 +2,7 @@ package com.certimeter.progetto.service;
 
 import com.certimeter.progetto.errorHandling.AuthorizationFailureException;
 import com.certimeter.progetto.filters.ReportFilter;
+import com.certimeter.progetto.model.HoursSum;
 import com.certimeter.progetto.model.Report;
 import com.certimeter.progetto.model.User;
 import com.certimeter.progetto.pojo.ReportPojo;
@@ -85,6 +86,17 @@ public class ReportService {
             } else
                 throw new AuthorizationFailureException();
         } else
+            throw new AuthorizationFailureException();
+    }
+
+    public List<HoursSum> workingMinutesAmount(String macroId, String userId, String token) throws AuthorizationFailureException {
+        if (authorizationService.isAdmin(token)) {
+            return reportMapperRepository.workingMinutesAmount(macroId, userId);
+        } else if (authorizationService.isPm(token))//DEBUG
+            throw new AuthorizationFailureException();//TODO
+        else if (authorizationService.isUser(token))
+            throw new AuthorizationFailureException();
+        else
             throw new AuthorizationFailureException();
     }
 }

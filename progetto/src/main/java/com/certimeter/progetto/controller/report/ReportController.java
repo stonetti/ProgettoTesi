@@ -2,6 +2,7 @@ package com.certimeter.progetto.controller.report;
 
 import com.certimeter.progetto.errorHandling.AuthorizationFailureException;
 import com.certimeter.progetto.filters.ReportFilter;
+import com.certimeter.progetto.model.HoursSum;
 import com.certimeter.progetto.model.Report;
 import com.certimeter.progetto.pojo.ReportPojo;
 import com.certimeter.progetto.service.ReportService;
@@ -80,5 +81,10 @@ public class ReportController implements ReportControllerInterface {
     @DeleteMapping("/{reportId}")
     public void deleteReport(@PathVariable String reportId, @RequestHeader(name = "Authorization") String token) throws AuthorizationFailureException {
         reportService.deleteReport(reportId, token.substring(7));
+    }
+
+    @GetMapping("/total_amount/{macroId}/{userId}")
+    public List<HoursSum> workingMinutesAmount(@PathVariable String macroId, @PathVariable String userId, @RequestHeader(name = "Authorization") String token) throws AuthorizationFailureException {
+        return reportService.workingMinutesAmount(macroId, userId, token.substring(7));
     }
 }

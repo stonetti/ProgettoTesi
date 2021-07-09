@@ -1,0 +1,17 @@
+li {
+  display: inline;
+}
+
+
+.crumb button{
+  color: rgba(33,13,255,0.89);
+  background-color: transparent;
+  padding: 3px;
+  border: none;
+  font-size: 14px;
+}
+
+/*.crumb-button{*/
+/*  margin-right: 5px;*/
+/*}*/
+

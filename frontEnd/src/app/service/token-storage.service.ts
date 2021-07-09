@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import {User} from "../model/User";
+import {User} from "../model/user";
 
 const ACC_TOKEN_KEY = 'acc-auth-token';
 const REF_TOKEN_KEY = 'ref-auth-token';
