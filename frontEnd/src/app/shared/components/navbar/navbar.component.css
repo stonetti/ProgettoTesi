@@ -49,3 +49,7 @@ nav{
   height: 50px;
   margin-bottom: 30px;
 }
+
+.nav-link{
+  cursor: pointer;
+}

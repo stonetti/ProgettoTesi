@@ -12,7 +12,8 @@
     >
     <li *ngFor="let crumb of crumbs let i=index">
       <div class="btn-group crumb-button">
-        <button type="button" routerLink="{{crumb.url}}" class="btn btn-primary">{{crumb.label}}</button>
+        <button *ngIf="!title[i]" type="button" routerLink="{{crumb.url}}" class="btn btn-primary">{{crumb.label}}</button>
+        <button *ngIf="title[i]" type="button" routerLink="{{title[i].url}}" class="btn btn-primary">{{title[i].label}}</button>
         <div class="btn-group" ngbDropdown role="group">
           <button class="btn btn-primary dropdown-toggle-split" ngbDropdownToggle></button>
           <div class="dropdown-menu" ngbDropdownMenu>

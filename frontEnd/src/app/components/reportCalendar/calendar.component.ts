@@ -4,7 +4,7 @@ import {startOfMonth, addDays, addMonths, isSameDay, lastDayOfMonth, subMonths} 
 import {Day} from "../../model/day";
 import {DateToString} from "../../shared/utilities/dateToString";
 import {DbConnection} from "../../service/dbConnection";
-
+import {NgbDateStruct} from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-calendar',
@@ -16,6 +16,7 @@ export class CalendarComponent implements OnInit {
 
   @Input () tableHeaders :Map<string,string> = new Map<string, string>();
   @Input() link : string = '';
+  @Input() customDateButtons : boolean = false;
   months : string[] = ["Gennaio",
     "Febbraio",
     "Marzo",
@@ -29,6 +30,7 @@ export class CalendarComponent implements OnInit {
     "Novembre",
     "Dicembre"]
 
+
   yearRange : number[] = [];
   todayDate : Date = new Date();
   currentMonthDays = new Array<Day>();
@@ -38,12 +40,12 @@ export class CalendarComponent implements OnInit {
   focusedMonth : Date = this.todayDate;
   errorMsg : String = '';
 
+
   constructor(public dateToString : DateToString, public dbConnection : DbConnection) { }
 
   ngOnInit(): void {
     this.setChangeMonthButtons();
-    this.setColumns(this.focusedMonth);
-    this.setRows();
+    this.setColumns();
   }
 
   private setRows() {
@@ -62,17 +64,19 @@ export class CalendarComponent implements OnInit {
     this.i=0;
   }
 
-  private setColumns(month : Date) {
+  private setColumns() {
     this.currentMonthDays = [];
     /*Imposta colonne tabella*/
-    let firstDay = startOfMonth(month);
-    let lastDay = addDays(lastDayOfMonth(month),1);
+    let firstDay = startOfMonth(this.focusedMonth);
+    let lastDay = addDays(lastDayOfMonth(this.focusedMonth),1);
     while(!isSameDay(lastDay,firstDay)){
       this.currentMonthDays.push(new Day(this.dateToString.toDayName(firstDay.getDay()),firstDay.getDate(), firstDay));
       firstDay = addDays(firstDay,1);
       this.i++;
     }
   }
+
+
 
   exportExcel() {
     import("xlsx").then(xlsx => {
@@ -94,31 +98,31 @@ export class CalendarComponent implements OnInit {
 
   displayPreviousMonth() {
     this.focusedMonth  = subMonths(this.focusedMonth, 1)
-    this.setColumns(this.focusedMonth);
+    this.setColumns();
     this.setRows();
   }
 
   displayNextMonth() {
     this.focusedMonth = addMonths(this.focusedMonth, 1);
-    this.setColumns(this.focusedMonth);
+    this.setColumns();
     this.setRows();
   }
 
   displayCurrentMonth() {
     this.focusedMonth = new Date();
-    this.setColumns(this.focusedMonth);
+    this.setColumns();
     this.setRows();
   }
 
   displaySelectedMonth(month:number){
     this.focusedMonth.setMonth(month)
-    this.setColumns(this.focusedMonth);
+    this.setColumns();
     this.setRows();
   }
 
   displaySelectedYear(year:number){
     this.focusedMonth.setFullYear(year)
-    this.setColumns(this.focusedMonth);
+    this.setColumns();
     this.setRows();
   }
 

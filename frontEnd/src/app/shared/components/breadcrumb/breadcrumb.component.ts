@@ -2,6 +2,7 @@ import {Component, Input,  EventEmitter, OnInit, Output} from '@angular/core';
 import {Crumb} from "../../../model/crumb";
 import {Activity} from "../../../model/activity";
 import {Macro} from "../../../model/macro";
+import { DOCUMENT } from '@angular/common';
 
 @Component({
   selector: 'app-breadcrumb',
@@ -11,6 +12,7 @@ import {Macro} from "../../../model/macro";
 export class BreadcrumbComponent implements OnInit {
   @Input () crumbs ?:Crumb[];
   @Output() dropdownClick = new EventEmitter ();
+  @Input() title : Crumb[] = [];
   constructor() { }
 
   ngOnInit(): void {

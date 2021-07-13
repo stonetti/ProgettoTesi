@@ -2,7 +2,7 @@
 
   <div class="row top-calendar-buttons">
 
-    <div class="col-4 ">
+    <div *ngIf="!customDateButtons" class="col-4">
       <div class="btn-group">
         <button class="btn btn-secondary btn-sm dropdown-toggle" type="button" id="dropdownMenuButtonMonth"
                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -21,6 +21,10 @@
           <a class="dropdown-item" (click)="displaySelectedYear(year)" *ngFor="let year of yearRange">{{year}}</a>
         </div>
       </div>
+    </div>
+
+    <div *ngIf="customDateButtons" class="col-md-4">
+      <app-datepicker></app-datepicker>
     </div>
     <div class="col-md-2 offset-6">
       <div class="download-excel">
@@ -41,7 +45,7 @@
     <tr>
       <th>#</th>
       <th *ngFor="let day of currentMonthDays">{{day.dayNumber}}<br>{{day.dayName}}</th>
-      <th>totale</th>
+      <th>Totale</th>
     </tr>
     </thead>
 
