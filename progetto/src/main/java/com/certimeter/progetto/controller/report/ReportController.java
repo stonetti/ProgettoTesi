@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.PostConstruct;
+import java.util.Date;
 import java.util.List;
 import java.util.function.Function;
 
@@ -86,5 +87,10 @@ public class ReportController implements ReportControllerInterface {
     @GetMapping("/total_amount/{macroId}/{userId}")
     public List<HoursSum> workingMinutesAmount(@PathVariable String macroId, @PathVariable String userId, @RequestHeader(name = "Authorization") String token) throws AuthorizationFailureException {
         return reportService.workingMinutesAmount(macroId, userId, token.substring(7));
+    }
+
+    @GetMapping("/total_macro_amount/{macroId}/{from}/{to}")
+    public List<HoursSum> totalMacroAmount(@PathVariable String macroId, @PathVariable Date from, @PathVariable Date to, @RequestHeader(name = "Authorization") String token) throws AuthorizationFailureException {
+        return reportService.totalMacroAmount(macroId, from, to, token.substring(7));
     }
 }

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient} from '@angular/common/http';
 import { Observable } from 'rxjs';
-import {UserLogin} from "../model/userLogin";
+import{HoursSum} from "../model/hourSum";
 
 const MACRO_API_URL = 'http://localhost:8080/macro/';
 const REPORT_API_URL = 'http://localhost:8080/reports/';
@@ -23,5 +23,9 @@ export class DbConnection {
 
   getWorkingHours(macroId: string | undefined, userId: string) : Observable<any>{
     return this.http.get(REPORT_API_URL + 'total_amount/'+ macroId + '/' + userId);
+  }
+
+  getMacroHours(macroId: string | undefined, from: Date, to: Date){
+    return this.http.get<HoursSum[]>(REPORT_API_URL + 'total_macro_amount/'+ macroId + '/' + from + '/' + to);
   }
 }

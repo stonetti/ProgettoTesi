@@ -11,6 +11,7 @@ import com.certimeter.progetto.utilities.Converter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -94,6 +95,19 @@ public class ReportService {
             return reportMapperRepository.workingMinutesAmount(macroId, userId);
         } else if (authorizationService.isPm(token))//DEBUG
             throw new AuthorizationFailureException();//TODO
+        else if (authorizationService.isUser(token))
+            throw new AuthorizationFailureException();
+        else
+            throw new AuthorizationFailureException();
+    }
+
+    public List<HoursSum> totalMacroAmount(String macroId, Date from, Date to, String token) throws AuthorizationFailureException {
+        System.out.println(macroId);
+        if (authorizationService.isAdmin(token)) {
+            return reportMapperRepository.totalMacroAmount(macroId, from, to);
+        } else if (authorizationService.isPm(token))
+            return reportMapperRepository.totalMacroAmount(macroId, from, to);
+//            throw new AuthorizationFailureException();//TODO
         else if (authorizationService.isUser(token))
             throw new AuthorizationFailureException();
         else

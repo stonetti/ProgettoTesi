@@ -18,6 +18,7 @@ import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Repository;
 
 import javax.annotation.PostConstruct;
+import java.util.Date;
 import java.util.List;
 import java.util.function.Function;
 
@@ -115,9 +116,19 @@ public class ReportMapperRepository {
     public List<HoursSum> workingMinutesAmount(String macroId, String userId) {
         MatchOperation matchStageMacro = Aggregation.match(new Criteria("idPath").is(macroId));
         MatchOperation matchStageUser = Aggregation.match(new Criteria("user").is(userId));
-        GroupOperation groupByDate = Aggregation.group("week('date')")
+        GroupOperation groupByDate = Aggregation.group("month('date')")
                 .sum("amount").as("totalAmount");
         Aggregation aggregation = Aggregation.newAggregation(matchStageMacro, matchStageUser, groupByDate);
+        AggregationResults<HoursSum> output = mongoTemplate.aggregate(aggregation, "reports", HoursSum.class);
+        return output.getMappedResults();
+    }
+
+
+    public List<HoursSum> totalMacroAmount(String macroId, Date from, Date to) {
+
+        MatchOperation matchStageMacro = Aggregation.match(new Criteria("idPath").is(macroId));
+        MatchOperation matchStageDate = Aggregation.match(new Criteria("date").gte(from.toInstant()));
+        Aggregation aggregation = Aggregation.newAggregation(matchStageMacro, matchStageDate);
         AggregationResults<HoursSum> output = mongoTemplate.aggregate(aggregation, "reports", HoursSum.class);
         return output.getMappedResults();
     }

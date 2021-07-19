@@ -3,10 +3,8 @@ import {NgbCalendar, NgbDate, NgbDateStruct} from "@ng-bootstrap/ng-bootstrap";
 import * as FileSaver from "file-saver";
 import {DateToString} from "../../shared/utilities/dateToString";
 import {Day} from "../../model/day";
-import {addDays, isSameDay, lastDayOfMonth, startOfMonth} from "date-fns";
-import {Week} from "../../model/week";
-import {Month} from "../../model/month";
-import {first} from "rxjs/operators";
+import {addDays, isSameDay} from "date-fns";
+import {DbConnection} from "../../service/dbConnection";
 
 @Component({
   selector: 'app-dashboard-calendar',
@@ -24,9 +22,10 @@ export class DashboardCalendarComponent implements OnInit {
   dashboardColumns: any[] = [];
   model ?: NgbDateStruct;
   daysCount : Day[]= [];
+  workingHours : number[][]= [];
   columnRangeDisplay : boolean [] = [true, false, false, false];
 
-  constructor(private calendar: NgbCalendar, private dateToString : DateToString) { }
+  constructor(private dbConnection: DbConnection, private calendar: NgbCalendar, private dateToString : DateToString) { }
 
   ngOnInit(): void {
     this.fromDate = this.calendar.getToday();
@@ -75,6 +74,8 @@ export class DashboardCalendarComponent implements OnInit {
       this.rows.push(i+1);
     }
     this.i=0;
+    let currentDate = new Date();
+    this.displayReports(new Date(currentDate.getFullYear(), currentDate.getMonth(), 1), new Date( currentDate.getFullYear(), currentDate.getMonth()+1, 0));
   }
 
   private setColumns() {
@@ -138,6 +139,20 @@ export class DashboardCalendarComponent implements OnInit {
       this.columnRangeDisplay = [true, false, false, false]
       this.dashboardColumns = this.daysCount;
     }
+    this.displayReports(this.daysCount[0].fullDate, this.daysCount[lastIndex].fullDate);
+  }
+
+  displayReports(from: any, to: any){
+    let k = 0;
+    this.tableHeaders.forEach((value: string, key:string) => {
+        this.dbConnection.getMacroHours(key, from, to).subscribe(
+          data => {
+            for (let doc in data) {
+              this.workingHours[k].push(data[doc].totalAmount);
+            }
+          })
+      k++;
+    })
   }
 
   exportExcel() {
@@ -157,5 +172,6 @@ export class DashboardCalendarComponent implements OnInit {
     });
     FileSaver.saveAs(data, fileName + '_export_' + new Date().getTime() + EXCEL_EXTENSION);
   }
+
 
 }
