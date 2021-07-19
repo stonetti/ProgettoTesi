@@ -2,10 +2,10 @@
 
   <div class="row top-calendar-buttons">
 
-    <div class="col-md-6">
+    <div class="col-md-4">
       <app-datepicker (newToDateSelected)="getNewToInput($event)"></app-datepicker>
     </div>
-    <div class="col-md-2 offset-2">
+    <div class="col-md-2 offset-6">
       <div class="download-excel">
         <button type="button" (click)="exportExcel()" class="btn btn-sm btn-success">Download</button>
       </div>
@@ -23,13 +23,14 @@
             {{date.dayNumber}}<br>{{date.dayName}}
         </div>
         <div *ngIf="columnRangeDisplay[1]==true">
-            {{date.firstDay}}<br>{{date.lastDay}}
+           Da  {{date.firstDay.dayNumber}}/{{date.firstDay.fullDate.getMonth()+1}}
+          <br> A {{date.lastDay.dayNumber}}/{{date.lastDay.fullDate.getMonth()+1}}
         </div>
         <div *ngIf="columnRangeDisplay[2]==true">
             {{date.monthName}}
         </div>
         <div *ngIf="columnRangeDisplay[3]==true">
-            {{date.dayNumber}}<br>{{date.dayName}}
+            {{date.fullYear}}
         </div>
       </th>
 

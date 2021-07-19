@@ -82,28 +82,57 @@ export class DashboardCalendarComponent implements OnInit {
     this.dashboardColumns = [];
     if (this.daysCount.length >= 30 && this.daysCount.length<90){
       this.columnRangeDisplay = [false,true,false,false]
+      let i = 0;
+      let k = 0;
+      let weeksNo = Math.floor(this.daysCount.length/7);
+      while(k<weeksNo-1){
+        if(i+7<=lastIndex){
+        this.dashboardColumns.push({firstDay: this.daysCount[i], lastDay:this.daysCount[i+7]})
+        i = i+8;
+        }else{
+          this.dashboardColumns.push({firstDay: this.daysCount[i],  lastDay:this.daysCount[lastIndex]})
+          i = i+8;
+        }
+        k++;
+      }
+
+      if(i<=lastIndex)
+      this.dashboardColumns.push({firstDay: this.daysCount[i],  lastDay:this.daysCount[lastIndex]})
+
    }
-    else if (this.daysCount.length >= 90 && this.daysCount.length<1080) {
+    else if (this.daysCount.length >= 90 && this.daysCount.length<1095) {
       let i = 0;
       let k = 0;
       this.columnRangeDisplay = [false, false, true, false]
       this.dashboardColumns.push({
-        monthName: this.dateToString.toMonthName(this.daysCount[0].fullDate.getMonth()),
-        monthNumber: this.daysCount[0].fullDate.getMonth() + 1
+        monthName: this.dateToString.toMonthName(this.daysCount[k].fullDate.getMonth()),
+        monthNumber: this.daysCount[k].fullDate.getMonth() + 1
       })
       while (k < lastIndex) {
         while (this.daysCount[k].fullDate.getMonth() == this.daysCount[i].fullDate.getMonth()) {
           i++;
         }
-        this.dashboardColumns.push({
-          monthName: this.dateToString.toMonthName(this.daysCount[i].fullDate.getMonth()),
-          monthNumber: this.daysCount[i].fullDate.getMonth() + 1
-        })
         k=i;
+        this.dashboardColumns.push({
+          monthName: this.dateToString.toMonthName(this.daysCount[k].fullDate.getMonth()),
+          monthNumber: this.daysCount[k].fullDate.getMonth() + 1
+        })
+
       }
     }
-    else if (this.daysCount.length >= 1080) {
-      this.columnRangeDisplay = [false,false,false,true]
+    else if (this.daysCount.length >= 1095) {
+      this.columnRangeDisplay = [false,false,false,true];
+      let i = 0;
+      let k = 0;
+      this.dashboardColumns.push({fullYear: this.daysCount[k].fullDate.getFullYear()})
+      while (k < lastIndex) {
+        while (this.daysCount[k].fullDate.getFullYear() == this.daysCount[i].fullDate.getFullYear()) {
+          i++;
+        }
+        k=i;
+        this.dashboardColumns.push({fullYear: this.daysCount[k].fullDate.getFullYear()})
+
+      }
     }
     else {
       this.columnRangeDisplay = [true, false, false, false]

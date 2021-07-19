@@ -1,8 +1,12 @@
+.input-group{
+  padding-bottom: 10px;
+}
 .form-group.hidden {
   width: 0;
   margin: 0;
   border: none;
   padding: 0;
+
 }
 .custom-day {
   text-align: center;
@@ -20,4 +24,8 @@
 }
 .custom-day.faded {
   background-color: rgba(2, 117, 216, 0.5);
+}
+
+.form-control{
+  width: 150px
 }
