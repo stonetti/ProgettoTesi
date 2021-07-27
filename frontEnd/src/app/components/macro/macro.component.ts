@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import{DbConnection} from "../../service/dbConnection";
 import {Macro} from "../../model/macro";
 import {Router} from "@angular/router";
+import {User} from "../../model/user";
 
 @Component({
   selector: 'app-macro',
@@ -11,6 +12,7 @@ import {Router} from "@angular/router";
 export class MacroComponent implements OnInit {
   public macros: Macro[] = [];
   private errorMsg: string = '';
+  pmInfos: User[] = [];
 
   constructor(public dbConnection : DbConnection, protected router: Router) { }
 

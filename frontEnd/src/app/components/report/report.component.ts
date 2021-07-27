@@ -4,6 +4,7 @@ import {TokenStorageService} from "../../service/token-storage.service";
 import {User} from "../../model/user";
 import {DbConnection} from "../../service/dbConnection";
 import {Macro} from "../../model/macro";
+import {LoginComponent} from "../login/login.component";
 
 @Component({
   selector: 'app-report',
@@ -15,15 +16,17 @@ export class ReportComponent implements OnInit {
   link :string = '/macro/'
   currentUser?: User;
   macro : Macro [] = [];
+  userRole: string = '';
   private errorMsg: string = '';
   tableHeaders : Map<string,string> = new Map<string, string>();
 
-  constructor(private appComponent : AppComponent,private token : TokenStorageService, private dbConnection : DbConnection) {
+  constructor(private loginComponent : LoginComponent,private appComponent : AppComponent,private token : TokenStorageService, private dbConnection : DbConnection) {
   }
 
   ngOnInit(): void {
     this.currentUser = this.token.getUser();
     this.getMacroList();
+    this.userRole = this.loginComponent.getUserRole();
   }
 
 

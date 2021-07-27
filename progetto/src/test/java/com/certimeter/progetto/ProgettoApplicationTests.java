@@ -4,13 +4,23 @@ import com.certimeter.progetto.controller.macro.MacroController;
 import com.certimeter.progetto.controller.report.ReportController;
 import com.certimeter.progetto.controller.user.UserController;
 import com.certimeter.progetto.errorHandling.AuthorizationFailureException;
+import com.certimeter.progetto.model.Report;
+import com.certimeter.progetto.model.Macro;
 import com.certimeter.progetto.repository.UserMapperRepository;
+import org.apache.tomcat.jni.Local;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.test.context.junit4.SpringRunner;
+
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.FormatStyle;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 @SpringBootTest
 @RunWith(SpringRunner.class)
@@ -48,6 +58,8 @@ class ProgettoApplicationTests {
 
         String encPwd = BCrypt.hashpw("silvia", BCrypt.gensalt());
         System.out.println(encPwd);
+
+        createReport(getMacro());
 //
 //        AccountDetails accDet = new AccountDetails();
 //        accDet.setPassword("Lprova");
@@ -97,18 +109,26 @@ class ProgettoApplicationTests {
         // // createReport(macro);
 //		createReport(macroController.getMacro("60a4eb0442f6845c9165f764"));
 //
-//	}
+	}
 //
-//	private void createReport(Macro macro) {
-//		List<String> idPath = new ArrayList<>();
-//		idPath.add("60a4eb0442f6845c9165f764");
-//		idPath.add("db2c8f17-2944-41a0-8498-b25babf5c701");
-//		idPath.add("55cc8589-fa47-42ab-9807-508b72b837ca");
-//
-//		String user = macro.getAssignedUsers().get(1).getId();
-//		Report report = Report.builder().idPath(idPath).date(LocalDate.now()).amount(200).note("report").user(user).build();
-//		reportController.createReport(report);
-//	}
+
+    private Macro getMacro() throws AuthorizationFailureException {
+        return macroController.getMacro("60a4e950d60344129635bf99","Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJ3ZWIiLCJ1c2VybmFtZSI6IkZpb3JlbGxvIiwiZW1haWwiOiJmaW9yZUB3ZWUuaWoiLCJyb2xlIjoiQURNSU4iLCJUb2tlblR5cGUiOiJBY2Nlc3MiLCJpYXQiOjE2MjY4NTI1MjIsImV4cCI6MTYyNjg2MTUyMn0.PNCAwBpQS8Bv95Z7mskw7freC_U58wrvx7jw0IkcXSE" );
+    }
+
+	private void createReport(Macro macro) throws AuthorizationFailureException {
+		List<String> idPath = new ArrayList<>();
+		idPath.add("60a4eb0442f6845c9165f764");
+		idPath.add("db2c8f17-2944-41a0-8498-b25babf5c701");
+		idPath.add("55cc8589-fa47-42ab-9807-508b72b837ca");
+
+		LocalDate date = LocalDate.now();
+		String stringDate = date.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+        System.out.println(stringDate);
+		String user = macro.getAssignedUsers().get(1).getId();
+		Report report = Report.builder().idPath(idPath).date(stringDate).amount(200).note("report").user(user).build();
+		reportController.createReport(report, "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJ3ZWIiLCJ1c2VybmFtZSI6IkZpb3JlbGxvIiwiZW1haWwiOiJmaW9yZUB3ZWUuaWoiLCJyb2xlIjoiQURNSU4iLCJUb2tlblR5cGUiOiJBY2Nlc3MiLCJpYXQiOjE2MjY4NTI1MjIsImV4cCI6MTYyNjg2MTUyMn0.PNCAwBpQS8Bv95Z7mskw7freC_U58wrvx7jw0IkcXSE");
+	}
 //
 //	private Macro createMacro(List<User> userList, List<UserInfo> userInfoList, Activity activity) {
 //
@@ -160,4 +180,4 @@ class ProgettoApplicationTests {
 
 //}
 
-}
+//}

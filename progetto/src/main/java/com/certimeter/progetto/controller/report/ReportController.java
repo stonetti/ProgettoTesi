@@ -90,7 +90,7 @@ public class ReportController implements ReportControllerInterface {
     }
 
     @GetMapping("/total_macro_amount/{macroId}/{from}/{to}")
-    public List<HoursSum> totalMacroAmount(@PathVariable String macroId, @PathVariable Date from, @PathVariable Date to, @RequestHeader(name = "Authorization") String token) throws AuthorizationFailureException {
+    public List<HoursSum> totalMacroAmount(@PathVariable String macroId, @PathVariable String from, @PathVariable String to, @RequestHeader(name = "Authorization") String token) throws AuthorizationFailureException {
         return reportService.totalMacroAmount(macroId, from, to, token.substring(7));
     }
 }

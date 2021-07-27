@@ -6,6 +6,6 @@ import java.util.Date;
 
 @Data
 public class HoursSum {
-    private Date id; //TODO: data da formattare
+    private String id;
     private int totalAmount;
 }

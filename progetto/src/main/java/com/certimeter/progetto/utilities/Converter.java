@@ -19,7 +19,6 @@ public class Converter {
 
     @SuppressWarnings("unchecked")
     static public <T, R> R convert(T data, Class<R> cls) {
-
         Function<?, ?> funct = functions.get(data.getClass()).get(cls);
         return ((Function<T, R>) funct).apply(data);
     }

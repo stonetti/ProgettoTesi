@@ -9,27 +9,21 @@
 
   <div class="collapse  navbar-collapse" id="navbarSupportedContent">
     <ul class=" navbar-nav mr-auto">
-      <li class="nav-item">
-        <a class="nav-link" routerLink="/report">Report<span class="sr-only">(current)</span></a>
-      </li>
+      <div *ngIf="userRole === 'USER'">
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/report">Report<span class="sr-only">(current)</span></a>
+        </li>
+      </div>
       <li class="nav-item">
         <a class="nav-link" routerLink="/macro">Macro</a>
       </li>
-      <li class="nav-item">
-        <a class="nav-link" (click)="updateDashboard() ">Dashboard</a>
-      </li>
+      <div *ngIf="userRole != 'USER'">
+        <li class="nav-item">
+          <a class="nav-link" (click)="updateDashboard() ">Dashboard</a>
+        </li>
+      </div>
       <li class="nav-item">
         <a class="nav-link" routerLink="/profile">Profilo</a>
-      </li>
-      <li class="nav-item dropdown">
-        <div class="nav-link dropdown-toggle" routerLink="home" id="navbarDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          Può servire?
-        </div>
-        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-          <a class="dropdown-item" href="#">prova1</a>
-          <a class="dropdown-item" href="#">prova 2</a>
-          <a class="dropdown-item" href="#">prova 3</a>
-        </div>
       </li>
     </ul>
     <button class="btn"(click)="logout()">Logout</button>

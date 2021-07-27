@@ -35,7 +35,6 @@ public class JwtService {
     private final String key = "chiave-segreta-per-signature-jwt-progetto-0109";
     private final SecretKey jwtSigningKey = Keys.hmacShaKeyFor(key.getBytes(StandardCharsets.UTF_8));
 
-    //TODO: chiedere a Fabio perchè se scommento non funziona (key=null)
 
     //	@PostConstruct public void init() {
     //		key = Keys.hmacShaKeyFor(jwt.getJwtSigningKey().getBytes(StandardCharsets.UTF_8));

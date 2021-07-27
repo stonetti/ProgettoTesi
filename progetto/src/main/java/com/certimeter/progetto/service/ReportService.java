@@ -11,6 +11,8 @@ import com.certimeter.progetto.utilities.Converter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.Date;
 import java.util.List;
 
@@ -101,8 +103,13 @@ public class ReportService {
             throw new AuthorizationFailureException();
     }
 
-    public List<HoursSum> totalMacroAmount(String macroId, Date from, Date to, String token) throws AuthorizationFailureException {
-        System.out.println(macroId);
+    public LocalDate convertToLocalDateViaInstant(Date dateToConvert) {
+        return dateToConvert.toInstant()
+                .atZone(ZoneId.systemDefault())
+                .toLocalDate();
+    }
+
+    public List<HoursSum> totalMacroAmount(String macroId, String from, String to, String token) throws AuthorizationFailureException {
         if (authorizationService.isAdmin(token)) {
             return reportMapperRepository.totalMacroAmount(macroId, from, to);
         } else if (authorizationService.isPm(token))

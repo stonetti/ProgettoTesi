@@ -1,6 +1,7 @@
 export class HoursSum{
 
-  constructor( public id : Date,
+  constructor(
+    public id : String,
   public totalAmount : number){
   }
 }

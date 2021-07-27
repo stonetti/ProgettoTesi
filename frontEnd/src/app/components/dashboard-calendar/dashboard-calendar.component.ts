@@ -6,6 +6,7 @@ import {Day} from "../../model/day";
 import {addDays, isSameDay} from "date-fns";
 import {DbConnection} from "../../service/dbConnection";
 
+
 @Component({
   selector: 'app-dashboard-calendar',
   templateUrl: './dashboard-calendar.component.html',
@@ -75,7 +76,8 @@ export class DashboardCalendarComponent implements OnInit {
     }
     this.i=0;
     let currentDate = new Date();
-    this.displayReports(new Date(currentDate.getFullYear(), currentDate.getMonth(), 1), new Date( currentDate.getFullYear(), currentDate.getMonth()+1, 0));
+    //sistemazione dovuta alla trasformazione JSON in dbConnection +2 GMT
+    this.displayReports(new Date(currentDate.getFullYear(), currentDate.getMonth(), 2), new Date( currentDate.getFullYear(), currentDate.getMonth()+1, 1));
   }
 
   private setColumns() {
@@ -143,16 +145,38 @@ export class DashboardCalendarComponent implements OnInit {
   }
 
   displayReports(from: any, to: any){
-    let k = 0;
-    this.tableHeaders.forEach((value: string, key:string) => {
-        this.dbConnection.getMacroHours(key, from, to).subscribe(
-          data => {
-            for (let doc in data) {
-              this.workingHours[k].push(data[doc].totalAmount);
-            }
-          })
-      k++;
-    })
+    this.workingHours = [];
+    let calendarRange = this.daysCount;
+    let i = 0;
+    let keys =  Array.from( this.tableHeaders.keys() );
+    console.log(keys)
+   for (let l = 0; l<keys.length; l++){
+      this.workingHours[i] = [];
+      this.dbConnection.getMacroHours(keys[l], from, to).subscribe(
+        data => {
+          let k = 0;
+          if (!this.workingHours[i]) this.workingHours[i] = []
+          if (data.length == 0)
+            this.workingHours[i][k] = 0;
+          else {
+            let j = 0;
+            data.forEach(element => {
+              console.log(element.totalAmount + " key: " + keys[l])
+              while (j < calendarRange.length) {
+                calendarRange[j].fullDate.setDate(calendarRange[j].fullDate.getDate() + 1);
+                if (element.id != calendarRange[j].fullDate.toJSON().slice(0, 10))
+                  this.workingHours[i][j] = 0;
+                else
+                  this.workingHours[i][j] = element.totalAmount;
+                k++;
+                j++;
+              }
+            })
+          }
+          i++;
+        })
+    }
+
   }
 
   exportExcel() {
@@ -172,6 +196,5 @@ export class DashboardCalendarComponent implements OnInit {
     });
     FileSaver.saveAs(data, fileName + '_export_' + new Date().getTime() + EXCEL_EXTENSION);
   }
-
 
 }

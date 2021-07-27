@@ -74,11 +74,10 @@ public class MacroService {
 
 
     public Macro createMacro(Macro macro, String token) throws AuthorizationFailureException {
-        if (authorizationService.isAdmin(token)) {
+        if (authorizationService.isAdmin(token) || authorizationService.isPm(token)) {
             MacroPojo macroPojo = Converter.convert(macro, MacroPojo.class);
             return Converter.convert(macroMapperRepository.createMacro(macroPojo), Macro.class);
-        } else if (authorizationService.isPm(token))//DEBUG
-            throw new AuthorizationFailureException();//TODO
+        }
         else if (authorizationService.isUser(token))
             throw new AuthorizationFailureException();
         else

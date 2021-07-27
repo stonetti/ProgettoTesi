@@ -7,17 +7,21 @@ import com.certimeter.progetto.model.HoursSum;
 import com.certimeter.progetto.persistence.ReportQueries;
 import com.certimeter.progetto.pojo.ReportPojo;
 import com.certimeter.progetto.utilities.Converter;
+import com.fasterxml.jackson.databind.util.ISO8601DateFormat;
+import com.mongodb.client.model.Sorts;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.MongoTemplate;
-import org.springframework.data.mongodb.core.aggregation.Aggregation;
-import org.springframework.data.mongodb.core.aggregation.AggregationResults;
-import org.springframework.data.mongodb.core.aggregation.GroupOperation;
-import org.springframework.data.mongodb.core.aggregation.MatchOperation;
+import org.springframework.data.mongodb.core.aggregation.*;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Repository;
 
 import javax.annotation.PostConstruct;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 import java.util.function.Function;
@@ -124,11 +128,13 @@ public class ReportMapperRepository {
     }
 
 
-    public List<HoursSum> totalMacroAmount(String macroId, Date from, Date to) {
-
+    public List<HoursSum> totalMacroAmount(String macroId, String from, String to) {
         MatchOperation matchStageMacro = Aggregation.match(new Criteria("idPath").is(macroId));
-        MatchOperation matchStageDate = Aggregation.match(new Criteria("date").gte(from.toInstant()));
-        Aggregation aggregation = Aggregation.newAggregation(matchStageMacro, matchStageDate);
+        MatchOperation matchStageDate = Aggregation.match(new Criteria("date").gte(from).lte(to));
+        GroupOperation groupByDate = Aggregation.group("date")
+                .sum("amount").as("totalAmount");
+        SortOperation sortReports = Aggregation.sort(Sort.Direction.ASC, "_id");
+        Aggregation aggregation = Aggregation.newAggregation(matchStageMacro, matchStageDate, groupByDate, sortReports);
         AggregationResults<HoursSum> output = mongoTemplate.aggregate(aggregation, "reports", HoursSum.class);
         return output.getMappedResults();
     }

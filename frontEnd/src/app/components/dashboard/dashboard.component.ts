@@ -6,7 +6,7 @@ import {User} from "../../model/user";
 import {Macro} from "../../model/macro";
 import {Crumb} from "../../model/crumb";
 import {Activity} from "../../model/activity";
-import {MacroComponent} from "../macro/macro.component";
+import {LoginComponent} from "../login/login.component";
 
 @Component({
   selector: 'app-dashboard',
@@ -26,13 +26,15 @@ export class DashboardComponent implements OnInit {
   elenco: any;
   user : any;
   title: Crumb[] = [];
+  userRole: string = '';
 
-  constructor(private appComponent : AppComponent, private token : TokenStorageService, private dbConnection : DbConnection) { }
+  constructor(private loginComponent : LoginComponent, private appComponent : AppComponent, private token : TokenStorageService, private dbConnection : DbConnection) { }
 
   ngOnInit(): void {
     this.crumbList = [];
     this.getMacroList();
     this.currentUser = this.token.getUser();
+    this.userRole = this.loginComponent.getUserRole();
   }
 
   getMacroList() {
@@ -41,7 +43,7 @@ export class DashboardComponent implements OnInit {
         for(let doc in data) {
           this.macroList.push(data[doc]);
           this.setMacroCrumble();
-          this.fillTable();
+          // this.fillTable();
         }
         this.setTableHeaders(this.macroList);
         },

@@ -1,0 +1,16 @@
+.row, .card{
+  margin: 20px
+}
+
+.card-header{
+  background-color: #3cb0f8;
+  color: white;
+}
+
+.rounded-circle{
+  width: 80px;
+  height: 80px;
+  margin: auto;
+  margin-left: 50px;
+  background-color: #3cb0f8;
+}

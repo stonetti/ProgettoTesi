@@ -1,8 +1,31 @@
 <app-navbar></app-navbar>
-<p>macro works!</p>
 
-<div *ngFor="let macro of macros">
-  <a class="nav-link" [routerLink]="['/macro', macro.name]">{{macro.name}}</a>
+  <div class="row">
+
+  <div *ngFor="let macro of macros">
+
+    <div class="card" style="width: 18rem;">
+      <h5 class="card-header">{{macro.name}}</h5>
+      <div class="card-body">
+        <dl>
+          <dt class="card-text"> Descrizione: </dt><dd>{{macro.description}}</dd>
+        <dt class="card-text"> Attività:</dt>
+        <dl *ngFor="let activity of macro.activities"> <li>{{activity.name}}</li></dl>
+        <dt class="card-text">Utenti assegnati: </dt>
+        <dl *ngFor="let user of macro.assignedUsers"> <li>{{user.name}} {{user.lastname}}</li></dl>
+        <dt class="card-text">Data di creazione: </dt> <dd>{{macro.dateOfCreation}}</dd>
+          <dt class="card-text">Data di scadenza: </dt> <dd>{{macro.expiringDate}}</dd>
+        <dt class="card-text">Project managers: </dt>
+        <ul *ngFor="let pm of pmInfos"> <li> {{pm.name}} {{pm.lastname}}</li></ul>
+        </dl>
+      </div>
+    </div>
+  </div>
+
+    <button class="rounded-circle rounded-sm">
+      <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="3" stroke-linecap="round">
+        <line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+    </button>
 </div>
 
 

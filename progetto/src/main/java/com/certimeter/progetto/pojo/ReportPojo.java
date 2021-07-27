@@ -10,7 +10,7 @@ public class ReportPojo {
     private String id;
     private List<String> idPath;
     private int amount;
-    private LocalDate date;
+    private String date;
     private String note;
     private String user;
     private List<String> pm;
