@@ -43,7 +43,6 @@ export class DashboardComponent implements OnInit {
         for(let doc in data) {
           this.macroList.push(data[doc]);
           this.setMacroCrumble();
-          // this.fillTable();
         }
         this.setTableHeaders(this.macroList);
         },
@@ -110,9 +109,11 @@ export class DashboardComponent implements OnInit {
   }
 
   private setTableHeaders(list: any[]) {
+    console.log("PARENT: ", this.tableHeaders);
     this.tableHeaders.clear();
     list.forEach(value =>
     this.tableHeaders.set(value.id, value.name))
+
   }
 
   private fillTable() {

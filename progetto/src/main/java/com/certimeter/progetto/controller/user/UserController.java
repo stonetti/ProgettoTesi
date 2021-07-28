@@ -95,16 +95,14 @@ public class UserController implements UserControllerInterface {
 
     @PostMapping("/login")
     public Map<String, Object> login(@RequestBody AccountDetails login) throws Exception {
-        System.out.println(login);
         return userService.userLogin(login);
     }
 
-    //con getTokenClaims verifico la consistenza della signature del token e recupero il role corrente
     @PostMapping("/auth/refresh-token")
     public Map<String, Object> refreshToken(@RequestBody String refreshToken) {
-        Role role = jwtService.getTokenClaims(refreshToken).getBody().get("Role", Role.class);
-        User user = jwtService.getUserFromToken(refreshToken);
-        return jwtService.setTokenMap(user, role);
+        jwtService.checkTokenAndInitSession(refreshToken);
+        User user = jwtService.getUserFromToken();
+        return jwtService.setTokenMap(user, jwtService.getRole());
     }
 
     @GetMapping("/switch-role/{role}")

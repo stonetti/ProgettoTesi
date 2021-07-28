@@ -5,11 +5,9 @@ import com.certimeter.progetto.enums.Role;
 import com.certimeter.progetto.model.AccountDetails;
 import com.certimeter.progetto.model.User;
 import com.certimeter.progetto.repository.UserMapperRepository;
-import com.certimeter.progetto.security.JwtResourceIdSecurity;
+import com.certimeter.progetto.security.JwtInstance;
 import com.certimeter.progetto.security.TokenFactory;
 import com.certimeter.progetto.utilities.Converter;
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,32 +23,29 @@ import java.util.Map;
 public class JwtService {
 
     @Autowired
-    UserMapperRepository repo;
+    UserMapperRepository userMapperRepository;
     @Autowired
-    SecurityProperties jwt;
-
+    SecurityProperties securityProperties;
     @Autowired
     TokenFactory tokenFactory;
-    //private SecretKey key;
+    @Autowired
+    JwtInstance jwtInstance;
+
+
     private final String key = "chiave-segreta-per-signature-jwt-progetto-0109";
     private final SecretKey jwtSigningKey = Keys.hmacShaKeyFor(key.getBytes(StandardCharsets.UTF_8));
 
+    public User getUserFromToken() {
+        return Converter.convert(userMapperRepository.getUser(getClaim("id", String.class)), User.class);
+    }
 
-    //	@PostConstruct public void init() {
-    //		key = Keys.hmacShaKeyFor(jwt.getJwtSigningKey().getBytes(StandardCharsets.UTF_8));
-    //		System.out.println(jwt);
-    //	}
-
-    public User getUserFromToken(String token) {
-        Jws<Claims> jws = getTokenClaims(token);
-        String userEncodedId = jws.getBody().getIssuer();
-        String userDecodedId = JwtResourceIdSecurity.decrypt(userEncodedId, jwt.getResourceIdKey());
-        return Converter.convert(repo.getUser(userDecodedId), User.class);
+    public void checkTokenAndInitSession(String token) {
+        jwtInstance.setToken(Jwts.parserBuilder().setSigningKey(jwtSigningKey).build().parseClaimsJws(token));
     }
 
     public Map<String, Object> setTokenMap(User user, Role role) {
-        String accessToken = tokenFactory.getAccessToken(user, role.getRole());
-        String refreshToken = tokenFactory.getRefreshToken(user, role.getRole());
+        String accessToken = tokenFactory.getAccessToken(user, role);
+        String refreshToken = tokenFactory.getRefreshToken(user, role);
         Map<String, Object> tokenMap = new HashMap<>();
         tokenMap.put("accessToken", accessToken);
         tokenMap.put("refreshToken", refreshToken);
@@ -58,18 +53,14 @@ public class JwtService {
     }
 
     public boolean passwordCheck(User user, AccountDetails acc) {
-        String hashedPwd = user.getAccDetails().getPassword();
-        return (BCrypt.checkpw(acc.getPassword(), hashedPwd));
-
+        return (BCrypt.checkpw(acc.getPassword(), user.getAccDetails().getPassword()));
     }
 
-    public Jws<Claims> getTokenClaims(String token) {
-        token = token.replace("\"", "");
-        return Jwts.parserBuilder().setSigningKey(jwtSigningKey).build().parseClaimsJws(token);
+    public <T> T getClaim(String key, Class<T> cls) {
+        return jwtInstance.getToken().getBody().get(key, cls);
     }
 
-    public String createIssuerFromUser(User user) {
-        String userId = user.getId();
-        return JwtResourceIdSecurity.encrypt(userId, jwt.getResourceIdKey());
+    public Role getRole() {
+        return Role.valueOf(getClaim("role", String.class));
     }
 }

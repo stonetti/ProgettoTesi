@@ -9,23 +9,104 @@
       <div class="card-body">
         <dl>
           <dt class="card-text"> Descrizione: </dt><dd>{{macro.description}}</dd>
-        <dt class="card-text"> Attività:</dt>
-        <dl *ngFor="let activity of macro.activities"> <li>{{activity.name}}</li></dl>
-        <dt class="card-text">Utenti assegnati: </dt>
-        <dl *ngFor="let user of macro.assignedUsers"> <li>{{user.name}} {{user.lastname}}</li></dl>
-        <dt class="card-text">Data di creazione: </dt> <dd>{{macro.dateOfCreation}}</dd>
-          <dt class="card-text">Data di scadenza: </dt> <dd>{{macro.expiringDate}}</dd>
-        <dt class="card-text">Project managers: </dt>
-        <ul *ngFor="let pm of pmInfos"> <li> {{pm.name}} {{pm.lastname}}</li></ul>
+          <dt class="card-text"> Attività:</dt>
+          <div *ngFor="let activity of macro.activities"> <dd>{{activity.name}}</dd></div>
+          <dt class="card-text">Utenti assegnati: </dt>
+          <div *ngFor="let user of macro.assignedUsers"> <dd>{{user.name}} {{user.lastname}}</dd></div>
+          <dt class="card-text">Data di creazione: </dt> <dd>{{macro.dateOfCreation}}</dd>
+            <dt class="card-text">Data di scadenza: </dt> <dd>{{macro.expiringDate}}</dd>
+          <dt class="card-text">Project managers: </dt>
+            <ul *ngFor="let pm of macro.pm">
+            <li> {{pm.name}} {{pm.lastname}}</li>
+            </ul>
         </dl>
       </div>
     </div>
   </div>
 
-    <button class="rounded-circle rounded-sm">
+    <button class="rounded-circle rounded-sm" data-toggle="modal"  data-target="#myModal">
       <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="3" stroke-linecap="round">
         <line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
     </button>
+
+    <div class="modal fade" id="myModal" role="dialog">
+      <div class="modal-dialog modal-lg">
+
+
+        <div class="modal-content">
+          <div class="modal-header">
+            <h4 class="modal-title">Nuova Macro</h4>
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+          </div>
+          <div class="modal-body">
+
+            <form [formGroup]="myForm">
+
+              <div class="form-group row">
+                <label for="macroName" class="col-sm-2 col-form-label">Nome</label>
+                <div class="col-sm-10">
+                  <input  formControlName="inputMacroName" type="text" class="form-control" id="macroName" placeholder="Nome macro">
+                </div>
+              </div>
+
+              <div class="form-group row">
+                <label for="description" class="col-sm-2 col-form-label">Descrizione</label>
+                <div class="col-sm-10">
+                  <textarea  formControlName="inputDescription" class="form-control" id="description" placeholder="Descrizione..." rows="5"></textarea>
+                </div>
+              </div>
+
+              <div class="form-group row">
+                <label for="selectUSer" class="col-sm-2 col-form-label">Seleziona utenti:</label>
+                <tag-input formControlName="inputUsers" id = "selectUSer" class="col-sm-10 " [ngModel]="selectedUsers" name="selectedUsers"
+                           [onlyFromAutocomplete]="true">
+                  <tag-input-dropdown [zIndex]="2000" [identifyBy]="'id'"
+                                    [displayBy]="'description'"
+                                    [autocompleteItems]="allUsers">
+                  </tag-input-dropdown>
+                </tag-input>
+              </div>
+
+              <div class="form-group row">
+                <label for="selectActivities" class="col-sm-2 col-form-label">
+                  Aggiungi attività:
+                </label>
+                <div class="col-sm-6">
+                <textarea  formControlName="inputActivity" class="form-control" id="selectActivities" rows="3"></textarea>
+                </div>
+              </div>
+
+              <div class="form-group row">
+                <label for="expDate" class="col-sm-2 col-form-label">
+                  Data di scadenza:
+                </label>
+                <div class="col-sm-6">
+                  <input type=date formControlName="inputDate" id="expDate" rows="3" (input)="verifyExpDate($event)">
+                  <div *ngIf="!validDate">
+                    <span class="badge badge-pill badge-danger">
+                     La data selezionata è antecedente a quella odierna!
+                    </span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-group row">
+                <div class="col-sm-10">
+                  <button type="submit" class="btn btn-primary">Salva</button>
+                  <button type="button" class="btn btn-default" (click)="resetForm()" data-dismiss="modal">Annulla</button>
+                </div>
+              </div>
+
+            </form>
+          </div>
+
+
+        </div>
+
+      </div>
+
+    </div>
+
 </div>
 
 

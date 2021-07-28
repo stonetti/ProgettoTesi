@@ -1,5 +1,6 @@
 package com.certimeter.progetto.security;
 
+import com.certimeter.progetto.enums.Role;
 import com.certimeter.progetto.model.User;
 import com.certimeter.progetto.service.JwtService;
 import io.jsonwebtoken.Jwts;
@@ -18,8 +19,9 @@ public class TokenFactory {
     private String secretString = "chiave-segreta-per-signature-jwt-progetto-0109";
     private SecretKey key = Keys.hmacShaKeyFor(secretString.getBytes(StandardCharsets.UTF_8));
 
-    public String getAccessToken(User user, String role) {
+    public String getAccessToken(User user, Role role) {
         String token = Jwts.builder().setAudience("web")
+                .claim("id", user.getId())
                 .claim("username", user.getAccDetails().getUsername())
                 .claim("email", user.getEmail())
                 .claim("role", role).claim("TokenType", "Access").setIssuedAt(new Date())
@@ -29,8 +31,9 @@ public class TokenFactory {
         return token;
     }
 
-    public String getRefreshToken(User user, String role) {
+    public String getRefreshToken(User user, Role role) {
         String token = Jwts.builder().setAudience("web")
+                .claim("id", user.getId())
                 .claim("username", user.getAccDetails().getUsername())
                 .claim("email", user.getEmail())
                 .claim("role", role).claim("TokenType", "Access").setIssuedAt(new Date())

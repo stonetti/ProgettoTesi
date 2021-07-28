@@ -8,7 +8,5 @@ public interface UserQueries extends MongoRepository<UserDao, String> {
 
     @Query("{ 'accDetails.username' : ?0}")
     UserDao findByUsername(String uName);
-
-    @Query("aiut!")
-    UserDao getUserByPm(String pm, String userId);
+    
 }

@@ -7,6 +7,16 @@
   color: white;
 }
 
+.scrollbox {
+  height:200px;
+  overflow:scroll;
+}
+
+.modal-header{
+  background-color: #3cb0f8;
+  color: white;
+}
+
 .rounded-circle{
   width: 80px;
   height: 80px;
@@ -14,3 +24,13 @@
   margin-left: 50px;
   background-color: #3cb0f8;
 }
+
+.dropdown-toggle{
+  background-color: #3cb0f8;
+  color: white;
+}
+
+tag-input-dropdown{
+  z-index:2000  !important;
+}
+

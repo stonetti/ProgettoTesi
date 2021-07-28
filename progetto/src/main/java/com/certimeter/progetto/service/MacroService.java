@@ -29,13 +29,13 @@ public class MacroService {
     ReportMapperRepository reportMapperRepository;
 
     public List<Macro> getList(MacroFilter param, String token) throws AuthorizationFailureException {
-        if (authorizationService.isAdmin(token))
+        if (authorizationService.isAdmin())
             return Converter.convert(macroMapperRepository.getAll(param.toParam()), Macro.class);
-        else if (authorizationService.isPm(token)) {
-            String pm = jwtService.getUserFromToken(token).getId();
+        else if (authorizationService.isPm()) {
+            String pm = jwtService.getUserFromToken().getId();
             return Converter.convert(macroMapperRepository.getListByPm(pm, param.toParam()), Macro.class);
-        } else if (authorizationService.isUser(token)) {
-            String user = jwtService.getUserFromToken(token).getId();
+        } else if (authorizationService.isUser()) {
+            String user = jwtService.getUserFromToken().getId();
             return Converter.convert(macroMapperRepository.getListByUser(user, param.toParam()), Macro.class);
         } else
             throw new AuthorizationFailureException();
@@ -43,13 +43,13 @@ public class MacroService {
 
     //TEST PER USER
     public Macro getMacro(String macroId, String token) throws AuthorizationFailureException {
-        if (authorizationService.isAdmin(token))
+        if (authorizationService.isAdmin())
             return Converter.convert(macroMapperRepository.getMacro(macroId), Macro.class);
-        else if (authorizationService.isPm(token))
-            return Converter.convert(macroMapperRepository.getMacroByIdAndPm(macroId, jwtService.getUserFromToken(token).getId()), Macro.class);
-        else if (authorizationService.isUser(token)) {
+        else if (authorizationService.isPm())
+            return Converter.convert(macroMapperRepository.getMacroByIdAndPm(macroId, jwtService.getUserFromToken().getId()), Macro.class);
+        else if (authorizationService.isUser()) {
             Macro macro = Converter.convert(macroMapperRepository.getMacro(macroId), Macro.class);
-            User user = jwtService.getUserFromToken(token);
+            User user = jwtService.getUserFromToken();
             List<UserInfo> assignedUserInfoList = macro.getAssignedUsers();
             for (UserInfo userinfo : assignedUserInfoList) {
                 if (userinfo.getId().equals(user.getId()))
@@ -74,11 +74,10 @@ public class MacroService {
 
 
     public Macro createMacro(Macro macro, String token) throws AuthorizationFailureException {
-        if (authorizationService.isAdmin(token) || authorizationService.isPm(token)) {
+        if (authorizationService.isAdmin() || authorizationService.isPm()) {
             MacroPojo macroPojo = Converter.convert(macro, MacroPojo.class);
             return Converter.convert(macroMapperRepository.createMacro(macroPojo), Macro.class);
-        }
-        else if (authorizationService.isUser(token))
+        } else if (authorizationService.isUser())
             throw new AuthorizationFailureException();
         else
             throw new AuthorizationFailureException();
@@ -87,14 +86,14 @@ public class MacroService {
 
     public Macro updateMacro(Macro macro, String token) throws AuthorizationFailureException {
         MacroPojo macroPojo = Converter.convert(macro, MacroPojo.class);
-        if (authorizationService.isAdmin(token)) {
+        if (authorizationService.isAdmin()) {
             return Converter.convert(macroMapperRepository.updateMacro(macroPojo), Macro.class);
-        } else if (authorizationService.isPm(token)) {
-            if (macro.getPm().contains(jwtService.getUserFromToken(token).getId()))
+        } else if (authorizationService.isPm()) {
+            if (macro.getPm().contains(jwtService.getUserFromToken().getId()))
                 return Converter.convert(macroMapperRepository.updateMacro(macroPojo), Macro.class);
             else
                 throw new AuthorizationFailureException();
-        } else if (authorizationService.isUser(token))
+        } else if (authorizationService.isUser())
             throw new AuthorizationFailureException();
         else
             throw new AuthorizationFailureException();
@@ -103,10 +102,10 @@ public class MacroService {
 
     public void deleteMacro(String macroId, String token) throws AuthorizationFailureException {
         if (reportMapperRepository.getReportByMacroId(macroId).size() == 0) {
-            if (authorizationService.isAdmin(token))
+            if (authorizationService.isAdmin())
                 macroMapperRepository.deleteMacro(macroId);
-            else if (authorizationService.isPm(token))
-                if (getMacro(macroId, token).getPm().contains(jwtService.getUserFromToken(token).getId()))
+            else if (authorizationService.isPm())
+                if (getMacro(macroId, token).getPm().contains(jwtService.getUserFromToken().getId()))
                     macroMapperRepository.deleteMacro(macroId);
                 else
                     throw new AuthorizationFailureException();

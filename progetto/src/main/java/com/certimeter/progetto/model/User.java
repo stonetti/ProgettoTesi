@@ -18,4 +18,5 @@ public class User {
     private AccountDetails accDetails;
     private List<Role> roles;
     private Role defaultRole;
+    
 }

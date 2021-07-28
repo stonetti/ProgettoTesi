@@ -8,7 +8,7 @@ export interface Macro {
   dateOfCreation: Date;
   expiringDate: Date;
   activities: Activity[];
-  pm: string;
+  pm: User[];
   assignedUsers: User[];
   subAssignedUsers: User[];
 }

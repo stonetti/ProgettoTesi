@@ -30,10 +30,19 @@ export class DbConnection {
   getMacroHours(macroId: string | undefined, from: Date, to: Date){
     let stringFrom = from.toJSON().slice(0,10);
     let stringTo = to.toJSON().slice(0,10);
+    console.log("from " + stringFrom + ' to ' + stringTo)
     return this.http.get<HoursSum[]>(REPORT_API_URL + 'total_macro_amount/'+ macroId + '/' + stringFrom + '/' + stringTo);
   }
 
   getUser(id: string) {
     return this.http.get<User>(USER_API_URL + id)
+  }
+
+  changeRole(role: string) {
+    return this.http.get(USER_API_URL + "switch-role/" + role);
+  }
+
+  getUsersList() :Observable<User[]>{
+    return this.http.post<User[]>(USER_API_URL + 'list', {});
   }
 }

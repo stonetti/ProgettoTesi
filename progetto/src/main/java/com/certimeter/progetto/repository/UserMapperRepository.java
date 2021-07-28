@@ -7,6 +7,7 @@ import com.certimeter.progetto.pojo.UserPojo;
 import com.certimeter.progetto.utilities.Converter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Repository;
 
@@ -18,7 +19,7 @@ import java.util.function.Function;
 public class UserMapperRepository {
 
     @Autowired
-    MongoTemplate mongotTemplate;
+    MongoTemplate mongoTemplate;
 
     @Autowired
     UserQueries userQueries;
@@ -84,15 +85,19 @@ public class UserMapperRepository {
     }
 
     public List<UserPojo> getList(List<QueryParameter> queryParameters) {
-        return Converter.convert(userQueries.findAll(), UserPojo.class);
+        Query query = new Query();
+        for (QueryParameter param : queryParameters)
+            query.addCriteria(Converter.toCriteria(param.getKey(), param.getOp(), param.getValue()));
+        return Converter.convert(mongoTemplate.find(query, UserDao.class), UserPojo.class);
     }
 
     public List<UserPojo> getListByPm(String pm, List<QueryParameter> toParam) {
         return null; //TODO: Converter.convert(db.findAll(), UserPojo.class);
     }
 
-    public UserPojo getUserByPm(String pm, String userId) {
-        return Converter.convert(userQueries.getUserByPm(pm, userId), UserPojo.class);
+    public UserPojo getUsersByPm(String pm, String userId) {
+        return new UserPojo();
+//        return Converter.convert(userQueries.getUsersByPm(pm, userId), UserPojo.class);
     }
 
 }

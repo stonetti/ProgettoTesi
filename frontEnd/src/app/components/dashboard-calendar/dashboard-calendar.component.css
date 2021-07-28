@@ -8,6 +8,11 @@ th{
 td{
   font-size: 10px;
 }
+#totalAmount{
+  color: #3cb0f8;
+  font-size: 14px;
+  font-weight: bold;
+}
 
 table {
   table-layout: fixed;

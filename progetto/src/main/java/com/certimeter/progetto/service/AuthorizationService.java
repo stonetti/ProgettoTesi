@@ -4,28 +4,22 @@ import com.certimeter.progetto.enums.Role;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-
 @Service
 public class AuthorizationService {
 
-
     @Autowired
-    JwtService jwt;
+    JwtService jwtService;
 
-    public List<Role> getRolesByJwt(String jwt) {
-        return null;
+    public boolean isPm() {
+        return jwtService.getRole() == (Role.PM);
     }
 
-    public boolean isPm(String token) {
-        return jwt.getTokenClaims(token).getBody().get("role").equals(Role.PM.getRole());
+    public boolean isAdmin() {
+        return jwtService.getRole() == (Role.ADMIN);
     }
 
-    public boolean isAdmin(String token) {
-        return jwt.getTokenClaims(token).getBody().get("role").equals(Role.ADMIN.getRole());
-    }
-
-    public boolean isUser(String token) {
-        return jwt.getTokenClaims(token).getBody().get("role").equals(Role.USER.getRole());
+    public boolean isUser() {
+        return jwtService.getRole() == (Role.USER);
     }
 }
+

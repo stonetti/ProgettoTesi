@@ -4,7 +4,6 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { LoginComponent } from './components/login/login.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { InputComponent } from './shared/components/input/input.component';
 import { HttpClientModule } from '@angular/common/http';
 import { ProfileComponent } from './components/profile/profile.component';
 import { ReportComponent } from './components/report/report.component';
@@ -22,13 +21,14 @@ import{BreadcrumbComponent} from "./shared/components/breadcrumb/breadcrumb.comp
 import { DatepickerComponent } from './shared/components/datepicker/datepicker.component';
 import {NbgFormatterService} from "./shared/utilities/nbg-formatter.service";
 import { DashboardCalendarComponent } from './components/dashboard-calendar/dashboard-calendar.component';
+import { TagInputModule } from 'ngx-chips';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
-    InputComponent,
     ProfileComponent,
     ReportComponent,
     NavbarComponent,
@@ -40,9 +40,11 @@ import { DashboardCalendarComponent } from './components/dashboard-calendar/dash
     DatepickerComponent,
     DatepickerComponent,
     DatepickerComponent,
-    DashboardCalendarComponent
+    DashboardCalendarComponent,
   ],
   imports: [
+    BrowserAnimationsModule,
+    TagInputModule,
     BrowserModule,
     FormsModule,
     AppRoutingModule,

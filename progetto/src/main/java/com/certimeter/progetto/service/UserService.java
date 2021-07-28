@@ -33,40 +33,29 @@ public class UserService {
     UserQueries userQueries;
 
     public List<User> getList(UserFilter param, String token) throws AuthorizationFailureException {
-        if (authorizationService.isAdmin(token))
+        if (authorizationService.isAdmin()) {
             return Converter.convert(userMapperRepository.getList(param.toParam()), User.class);
-        else if (authorizationService.isPm(token)) {
-            String pm = jwtService.getUserFromToken(token).getId();
+        } else if (authorizationService.isPm()) {
+            String pm = jwtService.getUserFromToken().getId();
             return Converter.convert(userMapperRepository.getListByPm(pm, param.toParam()), User.class);
         } else
             throw new AuthorizationFailureException();
     }
 
     public User getUser(String userId, String token) throws AuthorizationFailureException {
-        if (authorizationService.isAdmin(token))
-            return Converter.convert(userMapperRepository.getUser(userId), User.class);
-        else {
-            final String id = jwtService.getUserFromToken(token).getId();
-            if (authorizationService.isPm(token)) {
-                String pm = id;
-                return Converter.convert(userMapperRepository.getUserByPm(pm, userId), User.class);
-            } else if (id.equals(userId))
-                return Converter.convert(userMapperRepository.getUser(userId), User.class);
-            else
-                throw new AuthorizationFailureException();
-        }
+        return Converter.convert(userMapperRepository.getUser(userId), User.class);
     }
 
 
     public void deleteUser(String userId, String token) throws AuthorizationFailureException {
-        if (authorizationService.isAdmin(token))
+        if (authorizationService.isAdmin())
             userMapperRepository.deleteUser(userId);
         else
             throw new AuthorizationFailureException();
     }
 
     public User createUser(User user, String token) throws AuthorizationFailureException {
-        if (authorizationService.isAdmin(token)) {
+        if (authorizationService.isAdmin()) {
             UserPojo userpojo = Converter.convert(user, UserPojo.class);
             return Converter.convert(userMapperRepository.createUser(userpojo), User.class);
         } else
@@ -75,11 +64,11 @@ public class UserService {
 
     public User updateUser(User updatedUser, String token) throws AuthorizationFailureException {
         UserPojo userpojo;
-        if (authorizationService.isAdmin(token)) {
+        if (authorizationService.isAdmin()) {
             userpojo = Converter.convert(updatedUser, UserPojo.class);
             return Converter.convert(userMapperRepository.updateUser(userpojo), User.class);
         } else {
-            final User userFromToken = jwtService.getUserFromToken(token);
+            final User userFromToken = jwtService.getUserFromToken();
             //DEBUG
             System.out.println(userFromToken.getId());
             System.out.println(updatedUser.getId());
@@ -108,15 +97,16 @@ public class UserService {
     }
 
     public Map<String, Object> switchRole(Role role, String token) {
-        User user = jwtService.getUserFromToken(token);
+        User user = jwtService.getUserFromToken();
         if (user.getRoles().contains(role)) {
+            setDefaultRole(role, token);
             return jwtService.setTokenMap(user, role);
         } else
             return jwtService.setTokenMap(user, user.getDefaultRole());
     }
 
     public void setDefaultRole(Role role, String token) {
-        User user = jwtService.getUserFromToken(token);
+        User user = jwtService.getUserFromToken();
         user.setDefaultRole(role);
         UserPojo userpojo = Converter.convert(user, UserPojo.class);
         Converter.convert(userMapperRepository.updateUser(userpojo), User.class);

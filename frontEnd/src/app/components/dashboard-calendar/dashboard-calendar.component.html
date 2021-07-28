@@ -41,17 +41,19 @@
     <tbody>
     <tr>
       <th scope="row">Totale</th>
-      <td *ngFor="let cell of dashboardColumns"><!-- (click)=""--> </td>
-      <td></td>
+      <td *ngFor="let cell of totalPerDay"> {{cell}}</td>
+      <td>{{totalSum}}</td>
     </tr>
     <tr *ngFor="let content of tableHeaders|keyvalue; let i = index">
+
       <th class="row-header">
-        <a routerLink='{{link}}{{content.key}}'>
-          {{content.value}}
-        </a>
+        <a routerLink=''> {{content.value}} </a>
       </th>
-      <td *ngFor="let cell of workingHours[i]">{{cell}}</td>
-      <td></td>
+
+        <td *ngFor="let cell of workingHours.get(content.key)"> {{cell}} </td>
+
+      <td id="totalAmount">{{totalAmountPerMacro[i]}}</td>
+
     </tr>
     </tbody>
   </table>
