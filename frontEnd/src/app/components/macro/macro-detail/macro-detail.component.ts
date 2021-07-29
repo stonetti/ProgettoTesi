@@ -12,7 +12,6 @@ import {Activity} from "../../../model/activity";
   styleUrls: ['./macro-detail.component.css']
 })
 export class MacroDetailComponent implements OnInit {
-  //TODO
   // @ts-ignore: Object is possibly 'null'.
   public macro : Macro;
   private id : string | null = '';
@@ -87,8 +86,6 @@ export class MacroDetailComponent implements OnInit {
       }
     )
   }
-
-  //TODO: mettere anche gli assigned users
 
   private setUsers() {
     this.macro.subAssignedUsers.forEach((user) => {

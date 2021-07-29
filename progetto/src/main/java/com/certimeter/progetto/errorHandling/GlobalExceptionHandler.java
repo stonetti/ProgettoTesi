@@ -57,7 +57,6 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     protected ResponseEntity<Object> handleConstraintViolation(SQLIntegrityConstraintViolationException ex, HttpServletRequest request) {
         CustomError error = new CustomError();
         error.setType(URI.create("blog"));
-        //TODO: blog degli errori
         error.setTitle(ex.getClass().getSimpleName());
         error.setInstance(((ServletWebRequest) request).getRequest().getRequestURL().toString());
         error.setStatus(HttpStatus.BAD_REQUEST);

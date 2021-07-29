@@ -65,32 +65,32 @@ public class UserController implements UserControllerInterface {
 
     @Override
     @PostMapping("/")
-    public User createUser(@RequestBody User user, @RequestHeader(name = "Authorization") String token) throws AuthorizationFailureException {
-        return userService.createUser(user, token.substring(7));
+    public User createUser(@RequestBody User user) throws AuthorizationFailureException {
+        return userService.createUser(user);
     }
 
     @Override
-    @PutMapping("/")
-    public User updateUser(@RequestBody User user, @RequestHeader(name = "Authorization") String token) throws AuthorizationFailureException {
-        return userService.updateUser(user, token.substring(7));
+    @PutMapping("/{passwordChanged}")
+    public User updateUser(@RequestBody User user, @PathVariable boolean passwordChanged) throws AuthorizationFailureException {
+        return userService.updateUser(user, passwordChanged);
     }
 
     @Override
     @DeleteMapping("/{userId}")
-    public void deleteUser(@PathVariable String userId, @RequestHeader(name = "Authorization") String token) throws AuthorizationFailureException {
-        userService.deleteUser(userId, token.substring(7));
+    public void deleteUser(@PathVariable String userId) throws AuthorizationFailureException {
+        userService.deleteUser(userId);
     }
 
     @Override
     @GetMapping("/{userId}")
-    public User getUser(@PathVariable String userId, @RequestHeader(name = "Authorization") String token) throws AuthorizationFailureException {
-        return userService.getUser(userId, token.substring(7));
+    public User getUser(@PathVariable String userId) throws AuthorizationFailureException {
+        return userService.getUser(userId);
     }
 
     @Override
     @PostMapping("/list")
-    public List<User> getList(@RequestBody UserFilter param, @RequestHeader(name = "Authorization") String token) throws AuthorizationFailureException {//TODO:implementare filtri report
-        return userService.getList(param, token.substring(7));
+    public List<User> getList(@RequestBody UserFilter param) throws AuthorizationFailureException {//TODO:implementare filtri report
+        return userService.getList(param);
     }
 
     @PostMapping("/login")
@@ -106,13 +106,13 @@ public class UserController implements UserControllerInterface {
     }
 
     @GetMapping("/switch-role/{role}")
-    public Map<String, Object> switchRole(@PathVariable Role role, @RequestHeader(name = "Authorization") String token) {
-        return userService.switchRole(role, token.substring(7));
+    public Map<String, Object> switchRole(@PathVariable Role role) {
+        System.out.println("Ruolo: " + role);
+        return userService.switchRole(role);
     }
 
     @GetMapping("/set-default-role/{role}")
-    public void setDefaultRole(@PathVariable Role role, @RequestHeader(name = "Authorization") String token) {
-        userService.setDefaultRole(role, token.substring(7));
+    public void setDefaultRole(@PathVariable Role role) {
+        userService.setDefaultRole(role);
     }
-
 }

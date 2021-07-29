@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { TokenStorageService} from "../../service/token-storage.service";
 import {User} from "../../model/user";
 import {DbConnection} from "../../service/dbConnection";
+import {LoginComponent} from "../login/login.component";
 
 @Component({
   selector: 'app-profile',
@@ -11,11 +12,13 @@ import {DbConnection} from "../../service/dbConnection";
 export class ProfileComponent implements OnInit {
 
   currentUser?: User;
+   userRole !: string;
 
-  constructor(private dbConnection: DbConnection,private tokenStorage: TokenStorageService) { }
+  constructor(private loginComponent: LoginComponent, private dbConnection: DbConnection,private tokenStorage: TokenStorageService) { }
 
   ngOnInit(): void {
    this.loadUser();
+   this.userRole = this.loginComponent.getUserRole();
   }
 
   loadUser() : void{

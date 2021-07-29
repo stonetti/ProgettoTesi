@@ -1,4 +1,4 @@
-<app-navbar></app-navbar>
+<app-navbar [userRole] = "userRole"></app-navbar>
 
   <div class="row">
 
@@ -58,7 +58,7 @@
 
               <div class="form-group row">
                 <label for="selectUSer" class="col-sm-2 col-form-label">Seleziona utenti:</label>
-                <tag-input formControlName="inputUsers" id = "selectUSer" class="col-sm-10 " [ngModel]="selectedUsers" name="selectedUsers"
+                <tag-input formControlName="inputUsers" id = "selectUSer" class="col-sm-10 " [ngModel]="selectedUsers" name="selectUsers"
                            [onlyFromAutocomplete]="true">
                   <tag-input-dropdown [zIndex]="2000" [identifyBy]="'id'"
                                     [displayBy]="'description'"
@@ -99,14 +99,9 @@
 
             </form>
           </div>
-
-
         </div>
-
       </div>
-
     </div>
-
 </div>
 
 

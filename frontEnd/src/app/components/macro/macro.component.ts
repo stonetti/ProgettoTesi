@@ -4,6 +4,7 @@ import {Macro} from "../../model/macro";
 import {Router} from "@angular/router";
 import {User} from "../../model/user";
 import {FormControl, FormGroup} from "@angular/forms";
+import {LoginComponent} from "../login/login.component";
 
 @Component({
   selector: 'app-macro',
@@ -18,6 +19,7 @@ export class MacroComponent implements OnInit {
   allUsers: User[] = [];
   selectedUsers: User[] = [];
   validDate : Boolean = true;
+  userRole !: string;
   myForm : FormGroup = new  FormGroup({
     inputDate: new FormControl(''),
     inputActivity : new FormControl(''),
@@ -26,13 +28,14 @@ export class MacroComponent implements OnInit {
     inputMacroName : new FormControl(''),
   })
 
-  constructor(public dbConnection: DbConnection, protected router: Router) {
+
+  constructor(private loginComponent: LoginComponent, public dbConnection: DbConnection, protected router: Router) {
   }
 
   ngOnInit(): void {
     this.getMacroList();
     this.getUsersList();
-
+    this.userRole = this.loginComponent.getUserRole();
   }
 
   private getMacroList() {

@@ -41,7 +41,7 @@
     <tbody>
     <tr>
       <th scope="row">Totale</th>
-      <td *ngFor="let cell of totalPerDay"> {{cell}}</td>
+      <td *ngFor="let cell of workingHours|keyvalue"> {{cell.value}}</td>
       <td>{{totalSum}}</td>
     </tr>
     <tr *ngFor="let content of tableHeaders|keyvalue; let i = index">

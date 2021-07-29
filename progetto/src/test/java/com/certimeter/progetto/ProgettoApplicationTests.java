@@ -46,7 +46,6 @@ class ProgettoApplicationTests {
     @Test
     void userInsertTest() throws AuthorizationFailureException {
 
-
         String encPwd = BCrypt.hashpw("silvia", BCrypt.gensalt());
         System.out.println(encPwd);
 

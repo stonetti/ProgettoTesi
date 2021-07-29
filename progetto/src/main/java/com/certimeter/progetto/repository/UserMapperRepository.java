@@ -68,10 +68,12 @@ public class UserMapperRepository {
         return Converter.convert(userQueries.save(userdao), UserPojo.class);
     }
 
-    public UserPojo updateUser(UserPojo user) {
-        String pwd = user.getAccDetails().getPassword();
-        String hashedPwd = BCrypt.hashpw(pwd, BCrypt.gensalt());
-        user.getAccDetails().setPassword(hashedPwd);
+    public UserPojo updateUser(UserPojo user, boolean passwordChanged) {
+        if(passwordChanged){
+            String pwd = user.getAccDetails().getPassword();
+            String hashedPwd = BCrypt.hashpw(pwd, BCrypt.gensalt());
+            user.getAccDetails().setPassword(hashedPwd);
+        }
         UserDao userdao = Converter.convert(user, UserDao.class);
         return Converter.convert((userQueries.save(userdao)), UserPojo.class);
     }

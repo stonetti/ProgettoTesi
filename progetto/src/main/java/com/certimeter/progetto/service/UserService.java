@@ -32,7 +32,7 @@ public class UserService {
     @Autowired
     UserQueries userQueries;
 
-    public List<User> getList(UserFilter param, String token) throws AuthorizationFailureException {
+    public List<User> getList(UserFilter param) throws AuthorizationFailureException {
         if (authorizationService.isAdmin()) {
             return Converter.convert(userMapperRepository.getList(param.toParam()), User.class);
         } else if (authorizationService.isPm()) {
@@ -42,19 +42,19 @@ public class UserService {
             throw new AuthorizationFailureException();
     }
 
-    public User getUser(String userId, String token) throws AuthorizationFailureException {
+    public User getUser(String userId) throws AuthorizationFailureException {
         return Converter.convert(userMapperRepository.getUser(userId), User.class);
     }
 
 
-    public void deleteUser(String userId, String token) throws AuthorizationFailureException {
+    public void deleteUser(String userId) throws AuthorizationFailureException {
         if (authorizationService.isAdmin())
             userMapperRepository.deleteUser(userId);
         else
             throw new AuthorizationFailureException();
     }
 
-    public User createUser(User user, String token) throws AuthorizationFailureException {
+    public User createUser(User user) throws AuthorizationFailureException {
         if (authorizationService.isAdmin()) {
             UserPojo userpojo = Converter.convert(user, UserPojo.class);
             return Converter.convert(userMapperRepository.createUser(userpojo), User.class);
@@ -62,22 +62,17 @@ public class UserService {
             throw new AuthorizationFailureException();
     }
 
-    public User updateUser(User updatedUser, String token) throws AuthorizationFailureException {
+    public User updateUser(User updatedUser, boolean passwordChanged) throws AuthorizationFailureException {
         UserPojo userpojo;
         if (authorizationService.isAdmin()) {
             userpojo = Converter.convert(updatedUser, UserPojo.class);
-            return Converter.convert(userMapperRepository.updateUser(userpojo), User.class);
+            return Converter.convert(userMapperRepository.updateUser(userpojo, passwordChanged), User.class);
         } else {
             final User userFromToken = jwtService.getUserFromToken();
-            //DEBUG
-            System.out.println(userFromToken.getId());
-            System.out.println(updatedUser.getId());
-            System.out.println(updatedUser);
-            System.out.println(userFromToken.getId().equals(updatedUser.getId()));
             if (userFromToken.getId().equals(updatedUser.getId())) {
                 userFromToken.setAccDetails(updatedUser.getAccDetails());
                 userpojo = Converter.convert(userFromToken, UserPojo.class);
-                return Converter.convert(userMapperRepository.updateUser(userpojo), User.class);
+                return Converter.convert(userMapperRepository.updateUser(userpojo, passwordChanged), User.class);
             } else
                 throw new AuthorizationFailureException();
         }
@@ -96,20 +91,20 @@ public class UserService {
         return jwtService.setTokenMap(user, user.getDefaultRole());
     }
 
-    public Map<String, Object> switchRole(Role role, String token) {
+    public Map<String, Object> switchRole(Role role) {
         User user = jwtService.getUserFromToken();
         if (user.getRoles().contains(role)) {
-            setDefaultRole(role, token);
+            setDefaultRole(role);
             return jwtService.setTokenMap(user, role);
         } else
             return jwtService.setTokenMap(user, user.getDefaultRole());
     }
 
-    public void setDefaultRole(Role role, String token) {
+    public void setDefaultRole(Role role) {
         User user = jwtService.getUserFromToken();
         user.setDefaultRole(role);
         UserPojo userpojo = Converter.convert(user, UserPojo.class);
-        Converter.convert(userMapperRepository.updateUser(userpojo), User.class);
+        Converter.convert(userMapperRepository.updateUser(userpojo, false), User.class);
     }
 }
 

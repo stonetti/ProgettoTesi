@@ -5,7 +5,6 @@ import {DateToString} from "../../shared/utilities/dateToString";
 import {Day} from "../../model/day";
 import {addDays, isSameDay} from "date-fns";
 import {DbConnection} from "../../service/dbConnection";
-import {createLogErrorHandler} from "@angular/compiler-cli/ngcc/src/execution/tasks/completion";
 
 
 @Component({
@@ -160,11 +159,9 @@ export class DashboardCalendarComponent implements OnInit {
     let calendarRange = this.daysCount;
     let i = 0;
     console.log("tableHeaders prima di keys: " + this.tableHeaders)
-    let keys =  this.tableHeaders.keys() ;
-
+    let keys =  Array.from(this.tableHeaders.keys());
     for (let l = 0; l<keys.length; l++) {
       this.workingHours.set(keys[l], hoursPerPeriodArray);
-
       this.dbConnection.getMacroHours(keys[l], from, to).subscribe(
         data => {
 
