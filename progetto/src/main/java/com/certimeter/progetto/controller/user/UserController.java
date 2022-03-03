@@ -84,6 +84,7 @@ public class UserController implements UserControllerInterface {
     @Override
     @GetMapping("/{userId}")
     public User getUser(@PathVariable String userId) throws AuthorizationFailureException {
+        System.out.println(userId);
         return userService.getUser(userId);
     }
 
